@@ -1,7 +1,7 @@
 ## IBEM ESP32C3 IoT Battery Energy Monitor SDK  (NEW for March 2024)
 
 Prototype 3D Render
-![Display-Type-B](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/blob/main/IBEM-ESP32C3-SDK%20v1%202403-100%20PROTO%20PCA%20BETA.png?raw=true)
+![Display-Type-B](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/blob/main/IBEM-ESP32C3-SDK%20v1%202403-100%20PROTO%20PCA%20BETA%20Layout.jpg?raw=true)
 
 **IBEM Overview**
 
