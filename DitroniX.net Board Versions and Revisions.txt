@@ -1,0 +1,26 @@
+
+For various reasons, our boards may require update.  The below list contains any revision information summary.
+
+Board: IBEM ESP32C3 (IoT Battery Energy Monitor) SDK
+Features include Espressif ESP32C3 Mini, 80V SMPS 3V3, EEPROM, 16bit ADC ADS1115, DC Bi-Directional Current Sensor, Voltage Sensor, NTC, D1 USB Flashing Compatible
+
+1.2401.100	Beta Release (March 2024)
+
+
+
+
+
+
+
+
+
+Further information can be found:
+
+* [Project](https://github.com/DitroniX?tab=repositories) *plus the related* **Discussions** and **Wiki** Pages.  See tab in each separate repository.
+* **Project Community Information** can be found at https://www.hackster.io/DitroniX
+* [DitroniX.net Website - Contact Us](https://ditronix.net/contact/)
+* **Twitter**: [https://twitter.com/DitroniX](https://twitter.com/DitroniX)
+* [Supporting the STEM Projects - BuyMeACoffee](https://www.buymeacoffee.com/DitroniX)
+*  **LinkedIN**: [https://www.linkedin.com/in/g8puo/](https://www.linkedin.com/in/g8puo/)
+
+Dave Williams | G8PUO | DitroniX 1981-2024 | ditronix.net
