@@ -13,10 +13,29 @@ Using the on-board 4.5 to 80V DC-DC SMPS, the board can easily be safely powered
 
 Interface for programming, and development, is thought the standard Type C USB, into the on-board ESP32C3 DevKit port.  So making development completely self-contained.
 
-Further information to follow.
+**Features**
 
-
-
+ - **Espressif ESP32-C3 Mini** - 2.4GHz WiFi (802.11b/g/n) and Bluetooth 5
+	 - ESP32-C3-MINI-1-N4
+	 - ESP32-C3-MINI-1U-N4
+ - **16Bit ADC I2C**
+	 - ADS1115 (Analog To Digital Converter)
+		 - DC Current 
+		 - DC Voltage
+		 - NTC PCB Ambient Temperature
+ - **DC Bi-Directional Current Sensor**
+	 - Cross chip CC6921BSO-100A (2 Paralleled providing continuous 100A or peak 200A)
+	 - M8 Stud Terminations
+ - **Type C Programming / Debug**
+	 - CH340K USB UART 2Mbps Transceiver
+ - **EEPROM I2C** 
+	 - AT24C64 64Kbit 
+ - **High Voltage SMPS DC-DC - 4.5V~60V**
+	 - SSP9459	
+ - **I2C OLED Connector**
+	 - Configurable 3V3 polarity
+ - **Compact and Easy  To Use**
+	 - PCB 70mm x 70mm
 
 ## **Further Information**
 
