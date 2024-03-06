@@ -15,29 +15,62 @@ Using the on-board 4.5 to 80V DC-DC SMPS, the board can easily be safely powered
 
 Interface for programming, and development, is thought the standard Type C USB, into the on-board ESP32C3 DevKit port.  So making development completely self-contained.
 
-**Features**
+**IBEM Specification Features**
 
- - **Espressif ESP32-C3 Mini** - 2.4GHz WiFi (802.11b/g/n) and Bluetooth 5
-	 - ESP32-C3-MINI-1-N4
-	 - ESP32-C3-MINI-1U-N4
- - **16Bit ADC I2C**
-	 - ADS1115 (Analog To Digital Converter)
-		 - DC Current 
-		 - DC Voltage
-		 - NTC PCB Ambient Temperature
- - **DC Bi-Directional Current Sensor**
-	 - Cross chip CC6921BSO-100A (2 Paralleled providing continuous 100A or peak 200A)
-	 - M8 Stud Terminations
- - **Type C Programming / Debug**
-	 - CH340K USB UART 2Mbps Transceiver
- - **EEPROM I2C** 
-	 - AT24C64 64Kbit 
- - **High Voltage SMPS DC-DC - 4.5V~80V**
-	 - SSP9459	
- - **I2C OLED Connector**
-	 - Configurable 3V3 polarity
- - **Compact and Easy  To Use**
-	 - PCB 53mm x 70mm
+-   **Espressif ESP32-C3 Mini** - 2.4GHz WiFi (802.11b/g/n) and Bluetooth 5
+
+	-   ESP32-C3-MINI-1-N4 _(PCB Antenna)_
+	-   ESP32-C3-MINI-1U-N4 _(External Antenna via U.FL cable)_
+
+-   **16 Bit ADC I2C**
+	-   ADS1115 (Analog to Digital Converter)
+	-   DC Current _(Two channels)_
+	-   DC Voltage
+	-   NTC PCB Ambient Temperature
+
+-   **DC Bi-Directional Current Sensor**
+	-   Cross chip CC6921BSO-100A
+	-   2 Paralleled sensors providing continuous +- 100A or peak +- 200A
+	-   2 x M8 Stud Terminations
+	-   Low Side Monitoring for Safety
+	-   Current Sensor can be configured to be FULLY electrically isolated _(PCB link)_
+
+-   **Type C Programming / Debug**
+- 	-   CH340K USB UART 2Mbps Transceiver
+	-   Easy programming.  Select ‘ESP32C3 Dev Module’
+	-   BAUD rate up to 921600 to speed up Flashing
+	-   Power Can Be Taken from USB 5V when Flashing
+
+-   **EEPROM I2C**
+	-   AT24C64 64Kbit
+	-   On-board logging
+	-   Firmware setup user parameters and configuration
+
+-   **High Voltage SMPS DC-DC**
+	-   Large Input Voltage Range 4.5V~80V
+	-   SSP9481
+	-   Can be used on 12V, 24V, 36V and 48V Systems.
+	-   Resettable PCB Fuse _(300mA continuous, 600mA Trip)_
+	-   Board can be powered also powered from USB when programming
+	-   DC input taken from battery under test (separate positive terminal)
+
+-   **RGB LED - Status**
+	-   Configured to three GPIO’s for easy Firmware control
+
+-   **RGB LED – Power**
+	-   Power, UART TXD and USB Power Indicator
+
+-   **I2C OLED Connector**
+	-   Configurable 3V3 Pin 1 and 2 polarities
+	-   PCB 4 Pin Header Connector
+
+-   **Buttons**
+	-   Reset
+	-   User (Program or GP9 Detect)
+
+-   **Compact and Easy to Use**
+	-   PCB 53mm x 70mm
+	-   4 x M3 mounting holes (one grounded to DC-DC ground)
 
 ## **Further Information**
 
