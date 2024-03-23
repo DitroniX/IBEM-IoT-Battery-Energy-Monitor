@@ -8,6 +8,9 @@ Prototype IBEM-ESP32C3-SDK v1 2403-100 PROTO PCA
 Prototype IBEM Proto Initial Power up Initial Commissioning and Testing.
 ![Display-Type-B](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/blob/main/Datasheets%20and%20Information/IBEM-ESP32C3-SDK%20v1%202403-100%20PROTO%20Studs%20Test.jpg?raw=true)
 
+IBEM-ESP32C3-SDK v1 2403-100 PROTO Bring-Up Test
+![Display-Type-B](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/blob/main/Datasheets%20and%20Information/IBEM-ESP32C3-SDK%20v1%202403-100%20PROTO%20Bring-Up%20Test.jpg?raw=true)
+
 **IBEM Overview**
 
 IBEM is a compact Solar System IoT Battery Energy Monitor, which can accurately measure up to 200A peak DC, nominally 100A continuous, complete with voltage and power monitoring.
