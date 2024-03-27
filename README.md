@@ -56,7 +56,7 @@ Interface for programming, and development, is thought the standard Type C USB, 
   - SSP9481 step-down switch-mode with a built-in power MOSFET
   - Can be used on 12V, 24V, 36V and 48V Systems.
   - Resettable PCB DC Input Fuse *(100mA continuous, 250mA Trip)*
-  - Board can be powered also powered from USB when programming
+  - Board can be also powered from USB when programming
   - DC input taken from battery under test (separate positive terminal)
 - **On-Board Temperature**
   - NTC Ambient PCB Temperature Sensor
