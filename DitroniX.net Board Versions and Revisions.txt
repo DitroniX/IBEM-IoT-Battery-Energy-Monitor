@@ -2,15 +2,13 @@
 For various reasons, our boards may require update.  The below list contains any revision information summary.
 
 Board: IBEM ESP32C3 (IoT Battery Energy Monitor) SDK
-Features include Espressif ESP32C3 Mini, 80V SMPS 3V3, EEPROM, 16bit ADC ADS1115, DC Bi-Directional Current Sensor, Voltage Sensor, NTC, D1 USB Flashing Compatible
+Features include Espressif ESP32C3 Mini, 80V SMPS 3V3, EEPROM, 16bit ADC ADS1115, DC Bi-Directional Current Sensor, Voltage Sensor, NTC, OneWire, PWM Out, D1 USB Flashing Compatible
 
-1.2401.100	Beta Release (March 2024)
-
-
-
-
-
-
+1.2403.100 PROTO Beta Release (March 2024)
+1.2403.101P Final (March 2024)
+1.2403.102P Final. BOM Profiled for both versions: (March 2024)
+* ESP32-C3-MINI-1-N4 (PCB Antenna)
+* ESP32-C3-MINI-1U-N4 (External Antenna via U.FL cable)
 
 
 
