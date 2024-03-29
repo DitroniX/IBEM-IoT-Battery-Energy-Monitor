@@ -28,8 +28,8 @@ Opensource IBEM Firmware is provided on our GitHub, using the standard PlatformI
 
 **IBEM Specification and Features**
 
-- **Compatible Example of Battery Types**
-  - LI, SLD, FLD, GEL, AGM, LFP, NiCd, NiMH, LiPO, VRLA.
+- **Compatible Examples of Battery Types**
+  - LI, SLD, FLD, GEL, AGM, LFP, NiCd, NiMH, LiPO, LIFePO4, VRLA.
 - **MCU**
   - **Espressif ESP32-C3 Mini** - 2.4GHz Wi-Fi (802.11b/g/n) and Bluetooth 5
     - ESP32-C3-MINI-1-N4 *(PCB Antenna)*
@@ -41,7 +41,7 @@ Opensource IBEM Firmware is provided on our GitHub, using the standard PlatformI
     - NTC PCB Ambient Temperature
 - **DC Bi-Directional Current Sensor**
   - Cross chip CC6921BSO-100A 
-  - 2 Paralleled sensors providing continuous +- 100A or peak +- 200A
+  - 2 Paralleled sensors providing up to +- 100A (peak +- 200A).
   - 2 x M8 Stud Terminations
   - Low Side DC Monitoring for Safety
   - Current Sensor can be configured to be FULLY electrically isolated *(PCB link)*
