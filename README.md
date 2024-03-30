@@ -13,18 +13,23 @@ IBEM-ESP32C3-SDK v1 2403-100 PROTO Bring-Up Test
 
 **IBEM Overview**
 
-IBEM is a compact Solar System IoT Battery Energy Monitor, which can accurately measure up to 200A peak DC, nominally 100A continuous, complete with voltage and power monitoring.
+IBEM is a compact, self-contained, Solar System IoT Battery Energy Monitor, which can accurately measure current flow nominally up to +-100A (+-200A Peak), and voltage up to 80V DC.  This board essentially providing a complete voltage and power monitoring solution for your 48V, 36V, 24V or 12V batteries.
 
-Based on the new Espressif ESP32C3 Mini, which has both WiFi and BT, the SDK board is provided with a in-built bi-directional DC current sensor, via M8 bolt terminals, into a 16-bit ADS1115 four channel ADC. 
+Based on the new Espressif ESP32C3 Mini, which has both Wi-Fi and BT, the IBEM SDK board is provided with onboard bi-directional DC current sensor, via M8 bolt terminals, into a 16-bit ADS1115 four channel ADC.  No external shunts required.
 
-Using the on-board 4.5 to 80V DC-DC SMPS, the board can easily be safely powered direct from the battery source - an also continually monitor the battery voltage.
+Using the onboard 4.5 to 80V DC-DC SMPS, the board can easily be safely powered directly from the battery source – This also providing continuous monitoring of the battery voltage.
 
-Interface for programming, and development, is thought the standard Type C USB, into the on-board ESP32C3 DevKit port.  So making development completely self-contained.
+Interface for programming, and development, is thought a standard Type C USB, into the onboard UART and ESP32C3, so making development and use, completely self-contained.
+
+Using the provided I2C interface, an OLED display can be plugged directly into the board, if required, for local monitoring and status information.
+
+Opensource IBEM Firmware is provided on our GitHub, using the standard PlatformIO platform. This monitors Current, Voltage (and Temperature), to derive Power Energy information, which can then be sent to your Home Automation, or cloud service, via provided MQTT or Domoticz, as standard.
+
 
 **IBEM Specification and Features**
 
-- **Compatible Example of Battery Types**
-  - LI, SLD, FLD, GEL, AGM, LFP, NiCd, NiMH, LiPO, VRLA.
+- **Compatible Examples of Battery Types**
+  - LI, SLD, FLD, GEL, AGM, LFP, NiCd, NiMH, LiPO, LIFePO4, VRLA.
 - **MCU**
   - **Espressif ESP32-C3 Mini** - 2.4GHz Wi-Fi (802.11b/g/n) and Bluetooth 5
     - ESP32-C3-MINI-1-N4 *(PCB Antenna)*
@@ -36,7 +41,7 @@ Interface for programming, and development, is thought the standard Type C USB, 
     - NTC PCB Ambient Temperature
 - **DC Bi-Directional Current Sensor**
   - Cross chip CC6921BSO-100A 
-  - 2 Paralleled sensors providing continuous +- 100A or peak +- 200A
+  - 2 Paralleled sensors providing up to +- 100A (peak +- 200A).
   - 2 x M8 Stud Terminations
   - Low Side DC Monitoring for Safety
   - Current Sensor can be configured to be FULLY electrically isolated *(PCB link)*
