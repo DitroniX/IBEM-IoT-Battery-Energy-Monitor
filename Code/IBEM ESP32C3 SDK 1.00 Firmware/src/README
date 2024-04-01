@@ -1,0 +1,25 @@
+  Dave Williams, DitroniX 2018-2024 (ditronix.net)
+  IBEM-1 ESP32-C3 IoT Battery Energy Monitoring v1.0
+  Features include MCU ESP32-C3 | 16bit ADC ADS1115 | EEPROM AT24C64 | CC6921BSO-100A Current Monitor | Voltage | GPIO I2C OLED | SMPS SSP9459 | D1 USB CH340K
+  PCA 1.2403-101 - Test Code Firmware v1 - 1st April 2024
+
+  The purpose of this test code is to cycle through the various main functions of the board, as shown below, as part of board bring up testing.
+
+  Simplified Board Bring Up Test - All Functions
+
+  Remember!
+  Set the BOARD to ESP32-C3 DEV MODULE (or similar).
+  You may set the BAUD rate to 921600 to speed up flashing.
+  The SDK does NOT need external power to flash and will take Power from the USB 5V.
+
+  Information
+  This test code is OPEN SOURCE and formatted for easier viewing.  Although is is not intended for real world use, it may be freely used, or modified as needed.
+  It is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+
+  Compilation Warnings
+  Please ignore compilation warnings as these currently relate to ESP32 v ESP32C3 library shortlfalls.  All should compile fine.
+
+  Further information, details and examples can be found on our website and also GitHub wiki pages:
+  * github.com/DitroniX
+  * github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor
+  * hackster.io/DitroniX/ibem-esp32c3-iot-battery-energy-monitor-solar-inverters-0342b1
