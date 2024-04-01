@@ -6,6 +6,8 @@
   The purpose of this test code is to cycle through the various main functions of the board, as shown below, as part of board bring up testing.
 
   Simplified Board Bring Up Test - All Functions
+  
+  Note: Global.h contains various user configurable variables.
 
   Remember!
   Set the BOARD to ESP32-C3 DEV MODULE (or similar).
