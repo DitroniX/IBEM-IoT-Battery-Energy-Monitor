@@ -6,6 +6,8 @@ This folder contains IBEM Example Source Code.
 
   The purpose of the test code is to cycle through the various main functions of the board, as shown below, as part of board bring up testing.
 
+  PlatformIO code will automaticlaly load required libraries and configure board.   See platformio.ini for information,
+
   Remember!
   - Set the BOARD to ESP32-C3 DEV MODULE (or similar).
   - You may set the BAUD rate to 921600 to speed up flashing.
