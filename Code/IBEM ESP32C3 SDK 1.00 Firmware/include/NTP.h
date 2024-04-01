@@ -8,7 +8,8 @@
   Further information, details and examples can be found on our website and also GitHub wiki pages:
   * github.com/DitroniX
   * github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor
-  * hackster.io/DitroniX/ibem-esp32c3-iot-battery-energy-monitor-solar-inverters-0342b1
+  * github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/wiki
+  * hackster.io/DitroniX/ibem-esp32c3-iot-battery-energy-monitor-solar-inverters-0342b11
 */
 
 // Libraries
@@ -58,7 +59,7 @@ void UpdateNTP()
         NTP_RTC = timeClient.getFormattedTime();
         Serial.println("NTP: " + NTP_RTC + "\n");
     }
-}
+} // UpdateNTP
 
 // Read Time
 void ReadTime()

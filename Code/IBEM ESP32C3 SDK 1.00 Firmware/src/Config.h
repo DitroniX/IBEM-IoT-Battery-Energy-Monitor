@@ -8,6 +8,7 @@
   Further information, details and examples can be found on our website and also GitHub wiki pages:
   * github.com/DitroniX
   * github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor
+  * github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/wiki
   * hackster.io/DitroniX/ibem-esp32c3-iot-battery-energy-monitor-solar-inverters-0342b1
 */
 
@@ -23,7 +24,7 @@ int LoopDelay = 1; // Loop Delay in Seconds
 int OLEDDelay = 2; // OLED Delay in Seconds
 
 // Application Constants
-const String AppVersion = "240401"; // Internal Firmware Date Code
+const String AppVersion = "240401a"; // Internal Firmware Date Code
 const String AppAcronym = "IBEM";   // Board Acronym - Do Not Change
 const String AppName = AppAcronym + " ESP32-C3 IoT Battery Energy Monitor";
 const String LocationName = "Battery 1"; // Enter Name Location of Device. Used for Serial Monitor and OLED.
@@ -32,7 +33,7 @@ const String FirmwarePath = "IBEM ESP32C3 SDK 1.00 Firmware > pio > build > esp3
 // ******************************** ADC ********************************
 
 // Variables User
-const int AverageSamples = 5; // Average Multi-Samples on each Channel.  (Default 5)
+const int AverageSamples = 5; // Average Multi-Samples on each Channel Read.  (Default 5)
 const int AverageDelay = 5;   // Average Inter Multi-Sample ms Delay.  (Default 5)
 
 // Voltage User
@@ -41,7 +42,7 @@ const float DCVoltageOffset = 0.00;    // Battery Voltage Zero Calibration Offse
 
 // Current User
 const float DCCurrentThreshold = 0.20; // Minimum Current - removing noise.  (Default 0.20)
-const float DCCurrentOffset = 0;   // Battery Current Zero Calibration Offset [Remember the InvertReading option below]
+const float DCCurrentOffset = 0;       // Battery Current Zero Calibration Offset [Remember the InvertReading option below]
 const boolean InvertReading = false;   // Invert Current and Power (Default false) - * Default = IBEM Negative to Battery Negative *
 
 // Externs - No Change
@@ -49,10 +50,10 @@ float DCCurrent1;            // Current Sensor 1
 float DCCurrent2;            // Current Sensor 2
 float DCVoltage;             // Battery or DC Input Voltage Sensor
 float DCCurrentAccumulative; // Accumulative Current (1+2)
-float DCPower;               // Accumulative Power (1+2) * DCVoltage
-float BoardTemperatureC;       // PCB Temperature NTC C
-float BoardTemperatureF;       // BoardTemperature NTC F
-float BoardTemperatureK;       // BoardTemperature NTC K
+float DCPower;               // Accumulative Power ((1+2) * DCVoltage)
+float BoardTemperatureC;     // PCB Temperature NTC C
+float BoardTemperatureF;     // BoardTemperature NTC F
+float BoardTemperatureK;     // BoardTemperature NTC K
 
 // ******************************** WiFi ********************************
 
@@ -109,20 +110,20 @@ const boolean EnableDomoticz = false; // Change to true, to enable Loop reading 
 
 // Domoticz Server info.  Setup with your Domoticz IP and Port
 const char *DomoticzServer = "0.0.0.0"; // Domoticz Server IP Address (Typically a Fixed Local Address)  (Default 0.0.0.0)
-const int DomoticzPort = 8080;                // Domoticz Network Port (Default 8080)
-const char *Domoticz_User = "";               // Domoticz User - if applicable  (Not currently implimented in the connection)
-const char *Domoticz_Password = "";           // Domoticz Password - if applicable  (Not currently implimented in the connection)
+const int DomoticzPort = 8080;          // Domoticz Network Port (Default 8080)
+const char *Domoticz_User = "";         // Domoticz User - if applicable  (Not currently implimented in the connection)
+const char *Domoticz_Password = "";     // Domoticz Password - if applicable  (Not currently implimented in the connection)
 
 // Domoticz Hardware Device Indexes
 
-// Set these values to the Domoticz Devices Indexes (IDX).  If Zero, then entry is ignored. 
+// Set these values to the Domoticz Devices Indexes (IDX).  If Zero, then entry is ignored.
 // Remember a device first needs to be created in Domoticz, then use related IDX number here.   i.e.  129 = Domoticz hardware index 129.
 const int idxDCPower = 0;               // DCPower
 const int idxDCVoltage = 0;             // PCB DC Input (Derived from Battery)
 const int idxDCCurrentAccumulative = 0; // DCCurrentAccumulative
 
 const int idxBoardTemperatureC = 0; // PCB NTC °C
-const int idxBoardTemperatureF = 0;   // PCB NTC °F
+const int idxBoardTemperatureF = 0; // PCB NTC °F
 
 const int idxProbeTemperatureC = 0; // Battery NTC °C
 const int idxProbeTemperatureF = 0; // Battery NTC °F
@@ -170,7 +171,6 @@ const int PWM_PCA_ChannelOut = 0; // Output Channel 0-15. (Default 0)
 
 // Variables PWM Internal
 int PWM_MaximumResolution; // 8bit = 256-1 | 10bit = 1024-1 | 12bit = 4096-1 | 14bit = 16384-1 | 16bit = 65536-1.
-// int PWM_DutyCycleOutputUpperLimit;      // PWM Maximum Duty Cycle Based on ResolutionBit
 
 // Externs - No Change
 float PWMPowerOutput;                // Last Power Value Used For DAC

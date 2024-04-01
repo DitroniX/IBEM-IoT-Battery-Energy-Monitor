@@ -8,6 +8,7 @@
   Further information, details and examples can be found on our website and also GitHub wiki pages:
   * github.com/DitroniX
   * github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor
+  * github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/wiki
   * hackster.io/DitroniX/ibem-esp32c3-iot-battery-energy-monitor-solar-inverters-0342b1
 */
 
@@ -19,7 +20,6 @@
 // Initialise Domoticz
 void InitialiseDomoticz()
 {
-
     // Domoticz Integration Status
     if (EnableDomoticz == true && WiFi.status() == WL_CONNECTED)
     {
@@ -34,13 +34,12 @@ void InitialiseDomoticz()
 // Publish to Domoticz - Single String Values
 void PublishDomoticzString(int Sensor_Index, float Sensor_Value, String Sensor_Name = "")
 {
-
-    if (Sensor_Index > 0)
+    if (Sensor_Index > 0 && EnableDomoticz == true)
     {
         if (wlan_client.connect(DomoticzServer, DomoticzPort))
         {
             // Green LED
-            digitalWrite(LED_Green, LOW);
+            led.flash(RGBLed::GREEN, 50);
 
             Serial.print("Sending Message to Domoticz #");
             Serial.print(Sensor_Index);
@@ -66,9 +65,6 @@ void PublishDomoticzString(int Sensor_Index, float Sensor_Value, String Sensor_N
             wlan_client.println();
 
             wlan_client.stop();
-
-            // Green LED
-            digitalWrite(LED_Green, HIGH);
         }
         else
         {
@@ -94,13 +90,12 @@ void PublishDomoticzString(int Sensor_Index, float Sensor_Value, String Sensor_N
 // Publish to Domoticz - Single Numeric Values
 void PublishDomoticzNumeric(int Sensor_Index, float Sensor_Value, String Sensor_Name = "")
 {
-
-    if (Sensor_Index > 0)
+    if (Sensor_Index > 0 && EnableDomoticz == true)
     {
         if (wlan_client.connect(DomoticzServer, DomoticzPort))
         {
             // Green LED
-            digitalWrite(LED_Green, LOW);
+            led.flash(RGBLed::GREEN, 50);
 
             Serial.print("Sending Message to Domoticz #");
             Serial.print(Sensor_Index);
@@ -126,14 +121,11 @@ void PublishDomoticzNumeric(int Sensor_Index, float Sensor_Value, String Sensor_
             wlan_client.println();
 
             wlan_client.stop();
-
-            // Green LED
-            digitalWrite(LED_Green, HIGH);
         }
         else
         {
             // Red LED
-            digitalWrite(LED_Red, LOW);
+            led.flash(RGBLed::RED, 20);
 
             Serial.println("Domoticz Server Not Connected");
 
@@ -145,9 +137,6 @@ void PublishDomoticzNumeric(int Sensor_Index, float Sensor_Value, String Sensor_
             oled.update();
             delay(1000);
 
-            // Red LED
-            digitalWrite(LED_Red, HIGH);
-
             // Stabalise for slow Access Points
             InitialiseWiFi();
         }
@@ -157,68 +146,68 @@ void PublishDomoticzNumeric(int Sensor_Index, float Sensor_Value, String Sensor_
 // Publish to Domoticz - Listed Values
 void PublishDomoticzValues()
 {
-    if (wlan_client.connect(DomoticzServer, DomoticzPort) && EnableDomoticz == true && WiFi.status() == WL_CONNECTED)
+    if (EnableDomoticz == true)
     {
-        // IBEM Readings
-        if (idxDCCurrentAccumulative > 0)
+        if (wlan_client.connect(DomoticzServer, DomoticzPort) && WiFi.status() == WL_CONNECTED)
         {
-            PublishDomoticzString(idxDCCurrentAccumulative, DCCurrentAccumulative, "DCCurrentAccumulative");
-        }
+            // IBEM Readings
+            if (idxDCCurrentAccumulative > 0)
+            {
+                PublishDomoticzString(idxDCCurrentAccumulative, DCCurrentAccumulative, "DCCurrentAccumulative");
+            }
 
-        if (idxDCPower > 0)
+            if (idxDCPower > 0)
+            {
+                PublishDomoticzString(idxDCPower, DCPower, "DCPower");
+            }
+
+            if (idxDCVoltage > 0)
+            {
+                PublishDomoticzString(idxDCVoltage, DCVoltage, "DCVoltage");
+            }
+
+            if (idxBoardTemperatureC > 0)
+            {
+                PublishDomoticzString(idxBoardTemperatureC, BoardTemperatureC, "BoardTemperatureC");
+            }
+
+            if (idxBoardTemperatureF > 0)
+            {
+                PublishDomoticzString(idxBoardTemperatureF, BoardTemperatureF, "BoardTemperatureF");
+            }
+
+            if (idxProbeTemperatureC > 0)
+            {
+                PublishDomoticzString(idxProbeTemperatureC, ProbeTemperatureC, "ProbeTemperatureC");
+            }
+
+            if (idxProbeTemperatureF > 0)
+            {
+                PublishDomoticzString(idxProbeTemperatureF, ProbeTemperatureF, "ProbeTemperatureF");
+            }
+
+            // NTP Time
+            timeClient.update();
+            Serial.println(timeClient.getFormattedTime() + "> Published to Domoticz\n");
+        }
+        else
         {
-            PublishDomoticzString(idxDCPower, DCPower, "DCPower");
+            // Red LED
+            led.flash(RGBLed::RED, 20);
+
+            Serial.println("Domoticz Server Not Connected");
+
+            // Update OLED
+            oled.clear();
+            OLEDPrint("Error", 2, 0);
+            OLEDPrint("Domoticz", 2, 2);
+            OLEDPrint("Server", 2, 4);
+            oled.update();
+            delay(1000);
+
+            // Stabalise for slow Access Points
+            InitialiseWiFi();
         }
-
-        if (idxDCVoltage > 0)
-        {
-            PublishDomoticzString(idxDCVoltage, DCVoltage, "DCVoltage");
-        }
-
-        if (idxBoardTemperatureC > 0)
-        {
-            PublishDomoticzString(idxBoardTemperatureC, BoardTemperatureC, "BoardTemperatureC");
-        }
-
-        if (idxBoardTemperatureF > 0)
-        {
-            PublishDomoticzString(idxBoardTemperatureF, BoardTemperatureF, "BoardTemperatureF");
-        }
-
-        if (idxProbeTemperatureC > 0)
-        {
-            PublishDomoticzString(idxProbeTemperatureC, ProbeTemperatureC, "ProbeTemperatureC");
-        }
-
-        if (idxProbeTemperatureF > 0)
-        {
-            PublishDomoticzString(idxProbeTemperatureF, ProbeTemperatureF, "ProbeTemperatureF");
-        }
-
-        // NTP Time
-        timeClient.update();
-        Serial.println(timeClient.getFormattedTime() + "> Published to Domoticz\n");
-    }
-    else
-    {
-        // Red LED
-        digitalWrite(LED_Red, LOW);
-
-        Serial.println("Domoticz Server Not Connected");
-
-        // Update OLED
-        oled.clear();
-        OLEDPrint("Error", 2, 0);
-        OLEDPrint("Domoticz", 2, 2);
-        OLEDPrint("Server", 2, 4);
-        oled.update();
-        delay(1000);
-
-        // Red LED
-        digitalWrite(LED_Red, HIGH);
-
-        // Stabalise for slow Access Points
-        InitialiseWiFi();
     }
 } // PublishDomoticzValues
 
@@ -227,12 +216,12 @@ void PublishDomoticzValues()
 // Publish to Domoticz EXAMPLE - Batch or Group Values Example to Virtual Sensor.  Update as needed.  Future WIP Option.
 void PublishDomoticzATM(int Sensor_Index)
 {
-    if (Sensor_Index > 0)
+    if (Sensor_Index > 0 && EnableDomoticz == true)
     {
         if (wlan_client.connect(DomoticzServer, DomoticzPort) && EnableDomoticz == true && WiFi.status() == WL_CONNECTED)
         {
             // Green LED
-            digitalWrite(LED_Green, LOW);
+            led.flash(RGBLed::GREEN, 50);
 
             Serial.print("Sending ATM Group Message to Domoticz #");
             Serial.print(Sensor_Index);
@@ -253,14 +242,11 @@ void PublishDomoticzATM(int Sensor_Index)
             wlan_client.println();
 
             wlan_client.stop();
-
-            // Green LED
-            digitalWrite(LED_Green, HIGH);
         }
         else
         {
             // Red LED
-            digitalWrite(LED_Red, LOW);
+            led.flash(RGBLed::RED, 20);
 
             Serial.println("Domoticz Server Not Connected");
 
@@ -270,9 +256,6 @@ void PublishDomoticzATM(int Sensor_Index)
             OLEDPrint("Domoticz", 2, 2);
             oled.update();
             delay(1000);
-
-            // Red LED
-            digitalWrite(LED_Red, HIGH);
 
             // Stabalise for slow Access Points
             InitialiseWiFi();

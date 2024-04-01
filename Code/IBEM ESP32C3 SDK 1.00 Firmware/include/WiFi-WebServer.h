@@ -21,6 +21,7 @@
   Further information, details and examples can be found on our website and also GitHub wiki pages:
   * github.com/DitroniX
   * github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor
+  * github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/wiki
   * hackster.io/DitroniX/ibem-esp32c3-iot-battery-energy-monitor-solar-inverters-0342b1
 */
 
@@ -57,7 +58,7 @@ void WebServerPageContent(void)
 
   page_temperature = "<p><h2>Board Temperature:  <strong>" + String(BoardTemperatureC) + " &#xb0;C<BR>Probe Temperature:  <strong>" + String(ProbeTemperatureC) + " &#xb0;C</strong></h2></p>";
 
-  page_updater = "<br><p><strong>To Update the " + AppAcronym + " Firmware via Push OTA - <a href='http://localhost/update' target='_blank'>Click Here</a></strong><br></p><p><small>(Load compiled <i>firmware.bin</i> file - located in<strong> " + FirmwarePath + "</small></strong>)</p>";
+  page_updater = "<br><p><strong>To Update the " + AppAcronym + " Firmware via Push OTA - <a href='http://localhost/update' target='_blank'>Click Here</a></strong><br></p><p><small>(Load compiled <i>firmware.bin</i> file - located: <strong> " + FirmwarePath + "</small></strong>)</p>";
   page_footer = "<br><hr><p><small>Dave Williams&nbsp;&nbsp; | &nbsp;&nbsp;G8PUO&nbsp;&nbsp; | &nbsp;&nbsp;DitroniX&nbsp; | &nbsp;<a href='http://ditronix.net' target='_blank'>DitroniX.net</a>&nbsp; | &nbsp;<a href='https://github.com/DitroniX' target='_blank'>github.com/DitroniX</a>&nbsp; | &nbsp;<a href='https://www.hackster.io/ditronix' target='_blank'>hackster.io/DitroniX</a>&nbsp;&nbsp; | &nbsp;&nbsp;<a href='https://www.buymeacoffee.com/DitroniX' target='_blank'>Buy Me A Coffee</a></P></small></body></html>";
 } // WebServerPageContent
 

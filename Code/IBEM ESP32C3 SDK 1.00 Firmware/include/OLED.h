@@ -8,6 +8,7 @@
   Further information, details and examples can be found on our website and also GitHub wiki pages:
   * github.com/DitroniX
   * github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor
+  * github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/wiki
   * hackster.io/DitroniX/ibem-esp32c3-iot-battery-energy-monitor-solar-inverters-0342b1
 */
 
@@ -106,9 +107,6 @@ void InitialiseOLED()
     oled.update();
     delay(OLEDDelay * 1000);
 
-    // OLEDPrint(WiFi.localIP().toString().c_str(), 1, 2);
-    // OLEDPrint("Host:" + String(WiFi.getHostname()), 1, 3);
-
 } // InitialiseOLED
 
 // Status OLED
@@ -119,30 +117,27 @@ void StatusOLED()
 
     if (ADS1115Enabled == true)
     {
-        // TestADS1115();
         ReadADC();
-        // ReadTemperature();
+
         CheckDCVINVoltage();
 
         // Readings
         char buff[10];
         dtostrf(BoardTemperatureC, 2, 1, buff);
 
-        //(char)223
-
-        String header = AppAcronym + " " + buff + "C " + NTP_RTC;
+         String header = AppAcronym + " " + buff + "C " + NTP_RTC;
         OLEDPrint(header, 1, 0);
 
-        dtostrf(DCCurrentAccumulative, 4, 1, buff);
-        strcat(buff, " A");
+        dtostrf(DCPower, 4, 1, buff);
+        strcat(buff, " W");
         OLEDPrint(buff, 2, 2);
 
         dtostrf(DCVoltage, 4, 1, buff);
         strcat(buff, " V");
         OLEDPrint(buff, 2, 4);
 
-        dtostrf(DCPower, 4, 1, buff);
-        strcat(buff, " W");
+        dtostrf(DCCurrentAccumulative, 4, 1, buff);
+        strcat(buff, " A");
         OLEDPrint(buff, 2, 6);
     }
     else

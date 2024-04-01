@@ -8,6 +8,7 @@
   Further information, details and examples can be found on our website and also GitHub wiki pages:
   * github.com/DitroniX
   * github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor
+  * github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/wiki
   * hackster.io/DitroniX/ibem-esp32c3-iot-battery-energy-monitor-solar-inverters-0342b1
 */
 
@@ -76,11 +77,11 @@ void Initialise_ADS1115_ADC()
 
   if (InvertReading == false)
     Serial.println("ADC Current/Power Inverted");
-}
+} // Initialise_ADS1115_ADC
 
+// Read ADC
 void ReadADC()
-{ // Read ADC
-
+{
   float ADCV0, ADCV1, ADCV2, ADCV3, VoltageRaw;
 
   ADCV0 = readChannel(ADS1115_COMP_0_GND);
@@ -166,7 +167,7 @@ void ReadADC()
   Serial.print(" ºC\t");
   Serial.print(BoardTemperatureF);
   Serial.println(" ºF");
-}
+} // ReadADC
 
 // // Check DCV_IN DC Voltage
 void CheckDCVINVoltage()

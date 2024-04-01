@@ -8,11 +8,11 @@
   Further information, details and examples can be found on our website and also GitHub wiki pages:
   * github.com/DitroniX
   * github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor
+  * github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/wiki
   * hackster.io/DitroniX/ibem-esp32c3-iot-battery-energy-monitor-solar-inverters-0342b1
 */
 
 // Example Publish (play data), can be found on https://thingspeak.com/channels/2491848
- 
 
 // Libraries
 #include <Arduino.h>
@@ -55,10 +55,9 @@ void SetThingSpeakField(unsigned long ChannelID, float SensorValue, int dPlaces 
 // Publish ThingSpeak Values and Channels
 void PublishThingSpeakValues()
 {
+  // publish approximately every 5 sec
   if (EnableThingSpeak == true && WiFi.status() == WL_CONNECTED)
   {
-    // ms publish every 5 sec
-
     // Examples to Set the Fields with Values [fields 1-8 available, variable, Decimal Places]
     // Just uncomment the fields you wish to publish from this board.
     SetThingSpeakField(1, DCPower, 1);
