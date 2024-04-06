@@ -17,7 +17,7 @@
    To setup the Push OTA and Reflash The Board:
     * Once flashed, Open Web Page using IP Address in Web Browser (PC, Tablet, Phone).
     * Upload a BIN file. Compiled from PlatformIO. In Folder  IBEM_ESP32C3_SDK_v1_Test_Code > pio > build > esp32-c3-devkitm-1 > firmware.bin
-    
+
   Further information, details and examples can be found on our website and also GitHub wiki pages:
   * github.com/DitroniX
   * github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor
@@ -34,16 +34,22 @@
 
 // Web Server.
 WebServer server(80);
-String page_header, page_css, page_title, page_time, page_board, page_wifi, page_detail_header, page_detail, page_detail_footer, page_temperature, page_updater, page_footer;
+String page_header, page_css, page_title, page_banner, page_time, page_board, page_wifi, page_detail_header, page_detail, page_detail_footer, page_temperature, page_updater, page_footer;
 
 // **************** FUNCTIONS AND ROUTINES ****************
 
+// WebServer Page Content is based on basic HTML/CSS Code
 void WebServerPageContent(void)
 {
   // This section is made up of HTML/CSS Strings, which the ESP32 Web Server will hopefully deliver the page content.
-  page_header = "<!DOCTYPE HTML><html><head><meta http-equiv='refresh' content='5'><title>" + AppAcronym + " (" + LocationName + ". " + HostName + ") " + "</title><meta name='viewport' content='width=device-width, initial-scale=1'></head>";
+  if (EnableAutoWebRefresh == true)
+    page_header = "<!DOCTYPE HTML><html><head><meta http-equiv='refresh' content='5'>";
+  else
+    page_header = "<!DOCTYPE HTML><html><head>";
+
+  page_title = "<title>" + AppAcronym + " (" + LocationName + ". " + HostName + ") " + "</title><meta name='viewport' content='width=device-width, initial-scale=1'></head>";
   page_css = "<style>h1 {text-align: center;}h2 {text-align: center;}p {text-align: center;}div {text-align: center;}body {background-color: MintCream; font-family: Arial, Helvetica, sans-serif;}</style>";
-  page_title = "<body><h1>Welcome to the " + AppAcronym + " - Local Web Portal</h1><p><strong>" + AppName + "</strong><br><small>(Firmware Version " + AppVersion + ")</small></p>";
+  page_banner = "<body><h1>Welcome to the " + AppAcronym + " - Local Web Portal</h1><p><strong>" + AppName + "</strong><br><small>(Firmware Version " + AppVersion + ")</small></p>";
   page_time = "<p>" + AppAcronym + " Time: <strong>" + NTP_RTC + " </strong><small>(Auto Refresh)</small></p>";
   page_board = "<p>Board Location:<strong> " + LocationName + "</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Device:<strong>" + AppAcronym + "</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MAC Address: <strong>" + MACAddress + "</strong></p>";
   page_wifi = "<p>Board Hostname:<strong> " + HostName + "</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wi-Fi SSID:<strong> " + WiFi_SSID + "</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wi-Fi RSSI:<strong> " + String(RSSI_Level) + " dBm (" + RSSI_Detail + ")" + "</strong></p><BR>";
@@ -66,7 +72,7 @@ void WebServerPageContent(void)
 void WebServerRoot()
 {
   page_updater.replace("localhost", WiFi.localIP().toString().c_str());
-  server.send(200, "text/html", page_header + page_css + page_title + page_time + page_board + page_wifi + page_detail_header + page_detail + page_detail_footer + page_temperature + page_updater + page_footer);
+  server.send(200, "text/html", page_header + page_title + page_css + page_banner + page_time + page_board + page_wifi + page_detail_header + page_detail + page_detail_footer + page_temperature + page_updater + page_footer);
 } // WebServerRoot
 
 // Initialise WebServer

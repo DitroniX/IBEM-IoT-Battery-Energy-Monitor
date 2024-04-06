@@ -66,81 +66,95 @@ void DisplayProgress(int Progress)
 // Clear EEPROM (Only if unlocked and fully clear, if Validation not correct or corruption)
 void ClearEEPROM() // Size 0x2000 8192
 {
-  if (extEEPROM.read(1) != 0x99) // Check Locked Status - Future Use
+  if (EEPROMEnabled == true)
   {
-    if (extEEPROM.read(0) != 0x20 || extEEPROM.read(8192) != 0x20) // Check Validation(Future Use) and End Byte
+    if (extEEPROM.read(1) != 0x99) // Check Locked Status - Future Use
     {
-      Serial.println("\nPreparing New EEPROM.  Full Formatting...  Please Wait...");
 
-      for (int i = 0; i < 8192; i++)
+      // Update OLED
+      oled.clear();
+      OLEDPrint(AppAcronym, 4, 0);
+      OLEDPrint("EEPROM ", 2, 4);
+      OLEDPrint("Formatting", 2, 6);
+      oled.update();
+
+      if (extEEPROM.read(0) != 0x20 || extEEPROM.read(8192) != 0x20) // Check Validation(Future Use) and End Byte
       {
-        extEEPROM.write(i, 0x00);
-        DisplayProgress(i);
-      }
-    }
-    else
-    {
-      Serial.println("\nFormatting (Smart Clearing) EEPROM.  Checking, Please Wait... ");
-      for (int i = 1; i < 8192; i++)
-      {
-        if (extEEPROM.read(i) != 0x00) // Only Clear Used Bytes
+        Serial.println("\nPreparing New EEPROM.  Full Formatting...  Please Wait...");
+
+        for (int i = 0; i < 8192; i++)
         {
-          Serial.print(extEEPROM.read(i), HEX);
           extEEPROM.write(i, 0x00);
-          Serial.print("+");
+          DisplayProgress(i);
         }
       }
-    }
-
-    WriteEEPROM(0x00, 0x20); // Write Status Byte
-    {
-      for (int i = 1; i < 8192; i++)
+      else
       {
-        if (extEEPROM.read(i) != 0x00) // Only Clear Used Bytes
+        Serial.println("\nFormatting (Smart Clearing) EEPROM.  Checking, Please Wait... ");
+        for (int i = 1; i < 8192; i++)
         {
-          Serial.print(extEEPROM.read(i), HEX);
+          if (extEEPROM.read(i) != 0x00) // Only Clear Used Bytes
+          {
+            Serial.print(extEEPROM.read(i), HEX);
+            extEEPROM.write(i, 0x00);
+            Serial.print("+");
+          }
         }
-
-        DisplayProgress(i);
       }
-    }
-    Serial.println("\nEEPROM Cleared and Ready");
-  }
 
-  else
-    Serial.println("EEPROM Locked");
+      WriteEEPROM(0x00, 0x20); // Write Status Byte
+      {
+        for (int i = 1; i < 8192; i++)
+        {
+          if (extEEPROM.read(i) != 0x00) // Only Clear Used Bytes
+          {
+            Serial.print(extEEPROM.read(i), HEX);
+          }
+
+          DisplayProgress(i);
+        }
+      }
+      Serial.println("\nEEPROM Cleared and Ready");
+    }
+
+    else
+      Serial.println("EEPROM Locked");
+  }
 } // ClearEEPROM
 
 // Initialize EEPROM - Address 0x0000 = EEPROM Status
 void InitialiseEEPROM()
 {
-  /* Initialize the I2C interface and EEPROM */
-  Wire.begin();
-
-  // Format New EEPROM
-  if (extEEPROM.read(0) != 0x20)
-    ClearEEPROM();
-
-  Serial.print("\nEEPROM Check: ");
-  Serial.print(readEEPROM16(0x00), HEX);
-
-  // EEPROM Validation
-  if (readEEPROM16(0x00) == 0x00)
+  if (EEPROMEnabled == true)
   {
-    Serial.print("\t(Formatted OK)");
-  }
-  if (readEEPROM16(0x00) == 0xFF)
-  {
-    Serial.print("\t(Unformatted)");
-  }
-  if (readEEPROM16(0x00) == 0x20)
-  {
-    Serial.print("\t(Validation OK)");
-  }
-  if (readEEPROM16(0x01) == 0x99)
-  {
-    Serial.print("\t(Locked)");
-  }
+    /* Initialize the I2C interface and EEPROM */
+    Wire.begin();
 
-  Serial.println("\n");
+    // Format New EEPROM
+    if (extEEPROM.read(0) != 0x20)
+      ClearEEPROM();
+
+    Serial.print("\nEEPROM Check: ");
+    Serial.print(readEEPROM16(0x00), HEX);
+
+    // EEPROM Validation
+    if (readEEPROM16(0x00) == 0x00)
+    {
+      Serial.print("\t(Formatted OK)");
+    }
+    if (readEEPROM16(0x00) == 0xFF)
+    {
+      Serial.print("\t(Unformatted)");
+    }
+    if (readEEPROM16(0x00) == 0x20)
+    {
+      Serial.print("\t(Validation OK)");
+    }
+    if (readEEPROM16(0x01) == 0x99)
+    {
+      Serial.print("\t(Locked)");
+    }
+
+    Serial.println("\n");
+  }
 } // InitializeEEPROM

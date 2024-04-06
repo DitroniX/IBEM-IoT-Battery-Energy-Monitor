@@ -24,7 +24,7 @@ int LoopDelay = 1; // Loop Delay in Seconds
 int OLEDDelay = 2; // OLED Delay in Seconds
 
 // Application Constants
-const String AppVersion = "240401a"; // Internal Firmware Date Code
+const String AppVersion = "240406"; // Internal Firmware Date Code
 const String AppAcronym = "IBEM";   // Board Acronym - Do Not Change
 const String AppName = AppAcronym + " ESP32-C3 IoT Battery Energy Monitor";
 const String LocationName = "Battery 1"; // Enter Name Location of Device. Used for Serial Monitor and OLED.
@@ -33,8 +33,8 @@ const String FirmwarePath = "IBEM ESP32C3 SDK 1.00 Firmware > pio > build > esp3
 // ******************************** ADC ********************************
 
 // Variables User
-const int AverageSamples = 5; // Average Multi-Samples on each Channel Read.  (Default 5)
-const int AverageDelay = 5;   // Average Inter Multi-Sample ms Delay.  (Default 5)
+const int AverageSamples = 20; // Average Multi-Samples on each Channel Read.  (Default 20)
+const int AverageDelay = 10;   // Average Inter Multi-Sample ms Delay.  (Default 10)
 
 // Voltage User
 const float DCVoltageThreshold = 6.00; // Minimum Voltage > USB - removing noise. (Default 6.00)
@@ -58,12 +58,12 @@ float BoardTemperatureK;     // BoardTemperature NTC K
 // ******************************** WiFi ********************************
 
 // WiFi.  Setup with your Wireless Information.  Add more as needed.
-const char *ssid1 = "";        // WiFi Network SSID - Case Sensitive
+const char *ssid1 = "";     // WiFi Network SSID - Case Sensitive
 const char *password1 = ""; // WiFi Network password - Case Sensitive
-const char *ssid2 = "";             // WiFi Network SSID - Case Sensitive
-const char *password2 = "";         // WiFi Network password - Case Sensitive
-const char *ssid3 = "";             // WiFi Network SSID - Case Sensitive
-const char *password3 = "";         // WiFi Network password - Case Sensitive
+const char *ssid2 = "";     // WiFi Network SSID - Case Sensitive
+const char *password2 = ""; // WiFi Network password - Case Sensitive
+const char *ssid3 = "";     // WiFi Network SSID - Case Sensitive
+const char *password3 = ""; // WiFi Network password - Case Sensitive
 
 // WiFi. Force Disable for Testing.  !!!!! BEWARE Outside of Local Developmet Do NOT Disable as Network OTA will NOT work !!!!!
 const boolean WiFiEnabled = true; // Enable/Disable WiFi for Local USB Development and Testing Only.  You can leave SSID/IP etc populated.
@@ -80,6 +80,9 @@ IPAddress secondaryDNS(8, 8, 4, 4); // For Google Public DNS use for Primary or 
 // WiFi Other User Options
 int WifiMaxAPScan = 5;                   // Multiple WiFi Scan Maximum APs (Default 5)
 const uint32_t connectTimeoutMs = 10000; // WiFi connect timeout per AP. Increase when connecting takes longer. (Default 10000)
+
+// WebServer User Options
+boolean EnableAutoWebRefresh = true; // Change to false, to stop WebServer Page Auto Refresh.  (Default true)
 
 // Externs - No Change
 String HostName;    // Hostname
@@ -169,9 +172,6 @@ const int PWM_FrequencyHz = 1000; // PWM Default Frequency (Default 1000).  PWM 
 const int PWM_ResolutionBit = 10; // PWM bit Range 1-16 bits (Default 10) 8bit = 256-1 | 10bit = 1024-1 | 12bit = 4096-1 | 14bit = 16384-1 | 16bit = 65536-1
 const int PWM_PCA_ChannelOut = 0; // Output Channel 0-15. (Default 0)
 
-// Variables PWM Internal
-int PWM_MaximumResolution; // 8bit = 256-1 | 10bit = 1024-1 | 12bit = 4096-1 | 14bit = 16384-1 | 16bit = 65536-1.
-
 // Externs - No Change
 float PWMPowerOutput;                // Last Power Value Used For DAC
 float PWMDutyCycleOutput;            // Last Duty Cycle Value Used For DAC
@@ -179,6 +179,7 @@ int PWMChannelOutput;                // Last Channel Value Used For DAC
 boolean PWMOutputOff;                // Last DAC Output Off Base State
 int PWMPowerPercentage;              // Base Power Percentage
 float PWM_DutyCycleOutputUpperLimit; // // PWM Maximum Duty Cycle Based on ResolutionBit (Maximum 100.00)
+int PWM_MaximumResolution;           // 8bit = 256-1 | 10bit = 1024-1 | 12bit = 4096-1 | 14bit = 16384-1 | 16bit = 65536-1.
 
 // ******************************** ReBoot ********************************
 
@@ -203,8 +204,6 @@ boolean EEPROMEnabled = false;  // Auto Configuration Use - Do  Not Change
 boolean ADS1115Enabled = false; // Auto Configuration Use - Do  Not Change
 boolean OLEDEnabled = false;    // Auto Configuration Use - Do  Not Change
 
-// ******************************** OneWire ********************************
-
 // Externs - No Change
 float ProbeTemperatureC; // Battery Temperature Probe C
 float ProbeTemperatureF; // Battery Temperature Probe F
@@ -219,13 +218,13 @@ boolean OneWireEnabled;  // OneWire Auto Config
 #define I2C_CLOCK 4000000UL
 
 // Define OneWire (Expansion Port)
-#define DOW 3 // Dallas OneWire (PROTO = 3, Production = 6)
+#define DOW 6 // Dallas OneWire (PROTO = 3, Production = 6)
 
 // Default IBEM ADS1115 Address
 #define IBEM_ADS1115 0x48
 
 // ******************************** INPUTS ********************************
-#define ALRT 3        // ADS1115 Alert Out
+#define ALRT 8        // ADS1115 Alert Out
 #define User_Button 9 // User Button also Manual PGM
 #define VZCR 7        // Current Sensor Zero Crossing Out (Not Used)
 
@@ -237,7 +236,7 @@ boolean OneWireEnabled;  // OneWire Auto Config
 
 // ******************************** RTC ********************************
 
-// # RTC Clock Config
+// # RTC Clock Config WIP
 // #
 // # CONFIG_RTC_CLK_SRC_INT_RC is not set
 // # CONFIG_RTC_CLK_SRC_EXT_CRYS is not set

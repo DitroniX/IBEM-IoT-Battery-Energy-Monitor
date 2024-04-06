@@ -18,8 +18,9 @@
 
 #include <I2C.h>
 #include <ADC.h>
-#include <EEPROM.h>
 #include <OLED.h>
+#include <EEPROM.h>
+
 #include <Meter.h>
 #include <LED.h>
 #include <OneWireSensor.h>
@@ -75,13 +76,13 @@ void setup()
   LED_Test();
   ScanI2CBus();
 
-  // Initialize EEPROM (Format if needed)
-  if (EEPROMEnabled == true)
-    InitialiseEEPROM();
-
   // Initialize OLED
   if (OLEDEnabled == true)
     InitialiseOLED();
+
+  // Initialize EEPROM (Format if needed)
+  if (EEPROMEnabled == true)
+    InitialiseEEPROM();
 
   // Initialise WiFi OTA NTP
   InitialiseWiFi();
@@ -94,8 +95,8 @@ void setup()
   InitialiseMQTT();
   InitialiseThingSpeak();
 
-  // Initialise PWM for Meter or Safety Isolator
-  Initialise_PWM(PWM_Meter_GPIO);
+  // Initialise PWM for Meter or Safety Isolator (Under Development)
+  // Initialise_PWM(PWM_Meter_GPIO);
 
   // Initialise ADS1115
   if (ADS1115Enabled == true)

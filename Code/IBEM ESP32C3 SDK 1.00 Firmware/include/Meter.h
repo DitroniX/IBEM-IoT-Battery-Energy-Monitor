@@ -15,9 +15,9 @@
 // Libraries
 #include <Arduino.h>
 
-// ****** THIS PWM IS UNDER DEVELOPMENT - AWAITING PRODUCTION BOARD AND IS NOT CURRENTLY IN USE. ******
-
-// Future Check https://github.com/Dlloydev/ESP32-ESP32S2-AnalogWrite
+// ************************************************************************************************
+// ****** THIS PWM IS UNDER DEVELOPMENT ON THE PRODUCTION BOARD AND IS NOT CURRENTLY IN USE. ******
+// ************************************************************************************************
 
 // **************** FUNCTIONS AND ROUTINES ****************
 
@@ -132,7 +132,7 @@ void PWM_Calibrate()
 {
     int Local_Value = 50; // % Duty Cycle
 
-    Serial.println("PWM Fixed Outputs for Calibration");
+    Serial.println("PWM Fixed Outputs for Calibration\n");
 
     PWM_WriteDutyCycle(Local_Value);
     delay(3000);
@@ -141,10 +141,27 @@ void PWM_Calibrate()
 
 } // PWM_Calibrate
 
-// 1 PWM PWM Ramping Cycle
+// 1 Fixed Level Output
+void PWM_CalibrateMeter()
+{
+    Serial.println("Fixed Power Outputs for Meter Calibration\n");
+
+    PWM_WriteDutyCycle(0);
+    delay(2000);
+
+    PWM_WriteDutyCycle(50);
+    delay(2000);
+
+    PWM_WriteDutyCycle(100);
+    delay(2000);
+
+    Serial.println("");
+} // PWM_CalibrateMeter
+
+// 2 PWM PWM Ramping Cycle
 void PWM_RampingCycle()
 {
-    Serial.println("PWM PWM Ramping Cycle");
+    Serial.println("PWM Ramping Cycle");
 
     /* Increasing the PWM Duty Cycle Output */
     // for (float Local_Value = 0; Local_Value <= 100; Local_Value++)

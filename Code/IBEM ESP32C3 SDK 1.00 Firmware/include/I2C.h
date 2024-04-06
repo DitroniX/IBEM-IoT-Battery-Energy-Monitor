@@ -99,9 +99,10 @@ void ScanI2CBus()
             Serial.println(address, HEX);
         }
     }
-    if (nDevices == 0)
+    if (nDevices == 0 || ADS1115Enabled == false && EEPROMEnabled == false)
     {
-        Serial.println(" * No I2C devices found. Possible Hardware Issue?");
+        Serial.println(" * No I2C devices found.");
+        Serial.println(" * Possible Hardware Issue? or non IBEM Board?\n");
     }
     else
     {

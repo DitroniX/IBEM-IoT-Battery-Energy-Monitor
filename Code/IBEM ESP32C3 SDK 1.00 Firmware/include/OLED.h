@@ -74,83 +74,87 @@ void OLEDPrint(String TextS, int FontSize = 2, int PosY = 0, boolean FontCentre 
 // Initialise OLED
 void InitialiseOLED()
 {
-    Serial.println("Initialising OLED Display\n");
+    if (OLEDEnabled == true)
+    {
+        Serial.println("Initialising OLED Display\n");
 
-    oled.init(I2C_SDA, I2C_SCL);
+        oled.init(I2C_SDA, I2C_SCL);
 
-    // App and DitroniX
-    oled.clear();
-    OLEDPrint(AppAcronym, 4, 0);
-    OLEDPrint("DitroniX ", 2, 4);
-    OLEDPrint(".net", 2, 6);
-    oled.update();
-    delay(OLEDDelay * 1000);
+        // App and DitroniX
+        oled.clear();
+        OLEDPrint(AppAcronym, 4, 0);
+        OLEDPrint("DitroniX ", 2, 4);
+        OLEDPrint(".net", 2, 6);
+        oled.update();
+        delay(OLEDDelay * 1000);
 
-    // App and Version
-    oled.clear();
-    OLEDPrint(AppAcronym, 4, 0);
-    OLEDPrint("v " + AppVersion, 2, 6);
-    oled.update();
-    delay(OLEDDelay * 1000);
+        // App and Version
+        oled.clear();
+        OLEDPrint(AppAcronym, 4, 0);
+        OLEDPrint("v " + AppVersion, 2, 6);
+        oled.update();
+        delay(OLEDDelay * 1000);
 
-    // App and Location
-    oled.clear();
-    OLEDPrint(AppAcronym, 4, 0);
-    OLEDPrint(LocationName, 2, 6);
-    oled.update();
-    delay(OLEDDelay * 1000);
+        // App and Location
+        oled.clear();
+        OLEDPrint(AppAcronym, 4, 0);
+        OLEDPrint(LocationName, 2, 6);
+        oled.update();
+        delay(OLEDDelay * 1000);
 
-    // App and Starting...
-    oled.clear();
-    OLEDPrint(AppAcronym, 4, 0);
-    OLEDPrint("Starting..", 2, 6);
-    oled.update();
-    delay(OLEDDelay * 1000);
-
+        // App and Starting...
+        oled.clear();
+        OLEDPrint(AppAcronym, 4, 0);
+        OLEDPrint("Starting..", 2, 6);
+        oled.update();
+        delay(OLEDDelay * 1000);
+    }
 } // InitialiseOLED
 
 // Status OLED
 void StatusOLED()
 {
-    // Status
-    oled.clear();
-
-    if (ADS1115Enabled == true)
+    if (OLEDEnabled == true)
     {
-        ReadADC();
-
-        CheckDCVINVoltage();
-
-        // Readings
-        char buff[10];
-        dtostrf(BoardTemperatureC, 2, 1, buff);
-
-         String header = AppAcronym + " " + buff + "C " + NTP_RTC;
-        OLEDPrint(header, 1, 0);
-
-        dtostrf(DCPower, 4, 1, buff);
-        strcat(buff, " W");
-        OLEDPrint(buff, 2, 2);
-
-        dtostrf(DCVoltage, 4, 1, buff);
-        strcat(buff, " V");
-        OLEDPrint(buff, 2, 4);
-
-        dtostrf(DCCurrentAccumulative, 4, 1, buff);
-        strcat(buff, " A");
-        OLEDPrint(buff, 2, 6);
-    }
-    else
-    {
+        // Status
         oled.clear();
-        OLEDPrint(AppAcronym, 4, 0);
-        OLEDPrint("Error!", 2, 4);
-        OLEDPrint("No ADC", 2, 6);
+
+        if (ADS1115Enabled == true)
+        {
+            ReadADC();
+
+            CheckDCVINVoltage();
+
+            // Readings
+            char buff[10];
+            dtostrf(BoardTemperatureC, 2, 1, buff);
+
+            String header = AppAcronym + " " + buff + "C " + NTP_RTC;
+            OLEDPrint(header, 1, 0);
+
+            dtostrf(DCPower, 4, 1, buff);
+            strcat(buff, " W");
+            OLEDPrint(buff, 2, 2);
+
+            dtostrf(DCVoltage, 4, 1, buff);
+            strcat(buff, " V");
+            OLEDPrint(buff, 2, 4);
+
+            dtostrf(DCCurrentAccumulative, 4, 1, buff);
+            strcat(buff, " A");
+            OLEDPrint(buff, 2, 6);
+        }
+        else
+        {
+            oled.clear();
+            OLEDPrint(AppAcronym, 4, 0);
+            OLEDPrint("Error!", 2, 4);
+            OLEDPrint("No ADC", 2, 6);
+        }
+        oled.update();
+
+        delay(OLEDDelay * 1000);
     }
-    oled.update();
-
-    delay(OLEDDelay * 1000);
-
 } // Status OLED
 
 // Rough and Ready Underline Tesxt.

@@ -1,7 +1,8 @@
   Dave Williams, DitroniX 2018-2024 (ditronix.net)
   IBEM-1 ESP32-C3 IoT Battery Energy Monitoring v1.0
-  Features include MCU ESP32-C3 | 16bit ADC ADS1115 | EEPROM AT24C64 | CC6921BSO-100A Current Monitor | Voltage | GPIO I2C OLED | SMPS SSP9459 | D1 USB CH340K
-  PCA 1.2403-101 - Test Code Firmware v1 - 1st April 2024
+  Features include MCU Espressif ESP32-C3 Mini | 16bit ADC ADS1115 | 4.5-80V SMPS SSP9459 3V3 | EEPROM AT24C64 | CC6921BSO-100A Current Monitor | DC Bi-Directional Current Sensor | Voltage Sensor | GPIO I2C OLED | USB Flashing Compatible CH340K | PWM Out | NTC | OneWire
+
+  PCA 1.2403-10x - Test Code Firmware v1 - 6th April 2024
 
   The purpose of this test code is to cycle through the various main functions of the board, as shown below, as part of board bring up testing.
 
