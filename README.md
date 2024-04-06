@@ -3,6 +3,11 @@
 IBEM-ESP32C3-SDK v1 2403-101P
 ![Display-Type-B](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/blob/main/Datasheets%20and%20Information/IBEM-ESP32C3-SDK%20v1%202403-101P%20TopBottom.jpg?raw=true)
 
+
+_IBEM Connection Examples_
+![IBEM Expanded Example Connections](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/blob/main/Datasheets%20and%20Information/IBEM%20Expanded%20Example%20Connections.png)
+
+
 Prototype IBEM Proto Initial Power up Initial Commissioning and Testing.
 ![Display-Type-B](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/blob/main/Datasheets%20and%20Information/IBEM-ESP32C3-SDK%20v1%202403-100%20PROTO%20Studs%20Test.jpg?raw=true)
 
