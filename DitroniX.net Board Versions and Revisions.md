@@ -1,11 +1,11 @@
 
 For various reasons, our boards may require update.  The below list contains any revision information summary.
 
-Board: IBEM ESP32C3 (IoT Battery Energy Monitor) SDK
+**Board: IBEM ESP32C3 (IoT Battery Energy Monitor) SDK**
 
 Features include MCU Espressif ESP32-C3 Mini | 16bit ADC ADS1115 | 4.5-80V SMPS SSP9459 3V3 | EEPROM AT24C64 | CC6921BSO-100A Current Monitor | DC Bi-Directional Current Sensor | Voltage Sensor | GPIO I2C OLED | USB Flashing Compatible CH340K | PWM Out | NTC | OneWire
 
-**Suported IBEM ESP32C3 PCA Revisions:**
+**Supported IBEM ESP32C3 PCA Revisions:**
 - 1.2403-100 PROTO (Green PCA March 2024)
  - 1.2403-101P Production (March 2024)
 	 - BOM for standard ESP32-C3-MINI-1-N4  (PCB Antenna)
@@ -23,7 +23,7 @@ Features include MCU Espressif ESP32-C3 Mini | 16bit ADC ADS1115 | 4.5-80V SMPS 
 
 
 
-Further information can be found:
+**Further information can be found:**
 
 * [Project](https://github.com/DitroniX?tab=repositories) *plus the related* **Discussions** and **Wiki** Pages.  See tab in each separate repository.
 * **Project Community Information** can be found at https://www.hackster.io/DitroniX
