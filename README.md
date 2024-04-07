@@ -34,7 +34,7 @@ Opensource IBEM Firmware is provided on our GitHub, using the standard PlatformI
 - **Compatible Examples of Battery Types**
   - LI, SLD, FLD, GEL, AGM, LFP, NiCd, NiMH, LiPO, LIFePO4, VRLA.
 - **MCU**
-  - **Espressif ESP32-C3 Mini** - 2.4GHz Wi-Fi (802.11b/g/n) and Bluetooth 5
+  - **Espressif ESP32-C3 Mini** - 2.4GHz Wi-Fi (802.11b/g/n) and Bluetooth 5
     - ESP32-C3-MINI-1-N4 *(PCB Antenna)*
     - ESP32-C3-MINI-1U-N4 *(External Antenna via U. FL cable)*
 - **16 Bit ADC (I2C)**
@@ -90,7 +90,14 @@ Opensource IBEM Firmware is provided on our GitHub, using the standard PlatformI
   - Operating Ambient Temperature -40 to +85 °C
   - Optional Conformal Coating – on request.
 
+## **Ordering**
 
+- **ESP32-C3-MINI-1-N4** *(PCB Antenna)*
+  - eBay: https://www.ebay.co.uk/itm/326080939227
+  - Amazon: *URL To follow*
+- **ESP32-C3-MINI-1U-N4** *(External Antenna via U. FL)
+  - eBay: *URL To follow*
+  - Amazon: *URL To follow*
 
 ## **Further Information**
 
