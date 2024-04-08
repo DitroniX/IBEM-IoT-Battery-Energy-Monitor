@@ -24,7 +24,7 @@ int LoopDelay = 1; // Loop Delay in Seconds
 int OLEDDelay = 2; // OLED Delay in Seconds
 
 // Application Constants
-const String AppVersion = "240406"; // Internal Firmware Date Code
+const String AppVersion = "240408"; // Internal Firmware Date Code
 const String AppAcronym = "IBEM";   // Board Acronym - Do Not Change
 const String AppName = AppAcronym + " ESP32-C3 IoT Battery Energy Monitor";
 const String LocationName = "Battery 1"; // Enter Name Location of Device. Used for Serial Monitor and OLED.
@@ -34,7 +34,7 @@ const String FirmwarePath = "IBEM ESP32C3 SDK 1.00 Firmware > pio > build > esp3
 
 // Variables User
 const int AverageSamples = 20; // Average Multi-Samples on each Channel Read.  (Default 20)
-const int AverageDelay = 10;   // Average Inter Multi-Sample ms Delay.  (Default 10)
+const int AverageDelay = 20;   // Average Inter Multi-Sample ms Delay.  (Default 20)
 
 // Voltage User
 const float DCVoltageThreshold = 6.00; // Minimum Voltage > USB - removing noise. (Default 6.00)
@@ -46,14 +46,16 @@ const float DCCurrentOffset = 0;       // Battery Current Zero Calibration Offse
 const boolean InvertReading = false;   // Invert Current and Power (Default false) - * Default = IBEM Negative to Battery Negative *
 
 // Externs - No Change
-float DCCurrent1;            // Current Sensor 1
-float DCCurrent2;            // Current Sensor 2
-float DCVoltage;             // Battery or DC Input Voltage Sensor
-float DCCurrentAccumulative; // Accumulative Current (1+2)
-float DCPower;               // Accumulative Power ((1+2) * DCVoltage)
-float BoardTemperatureC;     // PCB Temperature NTC C
-float BoardTemperatureF;     // BoardTemperature NTC F
-float BoardTemperatureK;     // BoardTemperature NTC K
+float DCCurrent1;               // Current Sensor 1
+float DCCurrent2;               // Current Sensor 2
+float DCVoltage;                // Battery or DC Input Voltage Sensor
+float DCCurrentOffsetEEPROM;    // Stored DC Current Offset from EEPROM
+float DCCurrentAccumulative;    // Accumulative Current (1+2) Formulated
+float DCCurrentAccumulativeRaw; // Accumulative Current (1+2) Raw
+float DCPower;                  // Accumulative Power ((1+2) * DCVoltage)
+float BoardTemperatureC;        // PCB Temperature NTC C
+float BoardTemperatureF;        // BoardTemperature NTC F
+float BoardTemperatureK;        // BoardTemperature NTC K
 
 // ******************************** WiFi ********************************
 

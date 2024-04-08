@@ -19,7 +19,7 @@
 #include <I2C.h>
 #include <ADC.h>
 #include <OLED.h>
-#include <EEPROM.h>
+#include <EEPROM_AT24.h>
 
 #include <Meter.h>
 #include <LED.h>
@@ -105,9 +105,15 @@ void setup()
     Initialise_ADS1115_ADC();
 
     // ADC Test
-    PrintUnderline("ADC Test");
+    PrintUnderline("ADC Test Readings");
     ReadADC();
     CheckDCVINVoltage();
+  }
+
+  // DC Current Offset Check EEPROM
+  if (EEPROMEnabled == true)
+  {
+    CalculateDCCurrentOffsetEEPROM();
   }
 
   StatusOLED();

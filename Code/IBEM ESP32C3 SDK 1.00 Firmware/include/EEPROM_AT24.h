@@ -53,6 +53,29 @@ void WriteEEPROM16(unsigned int addEEPROM, uint16_t valEEPROM)
   extEEPROM.write(addEEPROM + 1, valEEPROM >> 8);
 } // WriteEEPROM16
 
+// Read Float Value
+void readEEPROMFloat(unsigned int addEEPROM, float *valEEPROM)
+{
+  byte ByteArray[4];
+  for (int x = 0; x < 4; x++)
+  {
+    // ByteArray[x] = EEPROM.read((MemPos * 4) + x);
+    ByteArray[x] = extEEPROM.read((addEEPROM * 4) + x);
+  }
+  memcpy(valEEPROM, ByteArray, 4);
+} // readEEPROMFloat
+
+// Write Float Value
+void WriteEEPROMFloat(unsigned int addEEPROM, float *valEEPROM)
+{
+  byte ByteArray[4];
+  memcpy(ByteArray, valEEPROM, 4);
+  for (int x = 0; x < 4; x++)
+  {
+    extEEPROM.write((addEEPROM * 4) + x, ByteArray[x]);
+  }
+} // WriteEEPROMFloat
+
 // Update Progress Bar to Serial Monitor
 void DisplayProgress(int Progress)
 {
@@ -157,4 +180,69 @@ void InitialiseEEPROM()
 
     Serial.println("\n");
   }
-} // InitializeEEPROM
+} // InitialiseEEPROM
+
+// Read DC Current Offset from EEPROM
+void ReadDCCurrentOffsetEEPROM()
+{
+  Serial.print("Reading DC Current Offset from EEPROM:\t");
+  readEEPROMFloat(0x1C, &DCCurrentOffsetEEPROM);
+  Serial.println(DCCurrentOffsetEEPROM, 6);
+} // ReadDCCurrentOffsetEEPROM
+
+// Write DC Current Offset from EEPROM (Only Write if on USB)
+void WriteDCCurrentOffsetEEPROM()
+{
+  Serial.print("Writing DC Current Offset to EEPROM:\t");
+  Serial.println(DCCurrentAccumulativeRaw, 6);
+  WriteEEPROMFloat(0x1C, &DCCurrentAccumulativeRaw);
+} // WriteDCCurrentOffsetEEPROM
+
+// Calculate DC Current Offset for EEPROM
+void CalculateDCCurrentOffsetEEPROM()
+{
+
+  Serial.println("Calculate Current Offset to EEPROM");
+
+  // Only update if Manual DCCurrentOffset is not updated and Powered via USB
+  if (DCCurrentOffset == 0 and DCVoltage < 5.3)
+  {
+
+    // Update OLED
+    oled.clear();
+    OLEDPrint(AppAcronym, 4, 0);
+    OLEDPrint("Auto ", 2, 4);
+    OLEDPrint("Calibrate", 2, 6);
+    oled.update();
+
+    // Clear Value to default
+    Serial.println("Clear EEPROM Current Offset Value");
+    float ClearValue = 0.00;
+    WriteEEPROMFloat(0x1C, &ClearValue);
+
+    // Update Current Flow (Default)
+    DCCurrentAccumulativeRaw = -DCCurrentAccumulativeRaw;
+
+    Serial.print("Current Accumlative Raw: \t\t");
+    Serial.println(DCCurrentAccumulativeRaw, 6);
+
+    // Write DCCurrentAccumulativeRaw Current to EEPROM
+    WriteDCCurrentOffsetEEPROM();
+
+    // Verify Read DCCurrentOffsetEEPROM Current from EEPROM
+    ReadDCCurrentOffsetEEPROM();
+
+    Serial.print("Updated Current Accumlative Raw: \t");
+    Serial.println(DCCurrentAccumulativeRaw, 6);
+
+    Serial.println("\n");
+
+    // Verify ADC Values
+    ReadADC();
+  }
+  else
+  {
+    Serial.println("Auto Calibration Disabled or Manually Adjusted");
+  }
+
+} // CalculateDCCurrentOffsetEEPROM

@@ -77,8 +77,8 @@ void Initialise_ADS1115_ADC()
     adc.setMeasureMode(ADS1115_CONTINUOUS);
     adc.setConvRate(ADS1115_128_SPS);
 
-    if (InvertReading == false)
-      Serial.println("ADC Current/Power Inverted");
+    if (InvertReading == true)
+      Serial.println("ADC Current/Power Inverted\n");
   }
 } // Initialise_ADS1115_ADC
 
@@ -119,18 +119,24 @@ void ReadADC()
 
     // DC Current
     VoltageRaw = ADCV1 + ADCV2;
-    VoltageRaw = VoltageRaw - 3.3;
+    VoltageRaw = VoltageRaw - 3.300000;
 
-    DCCurrentAccumulative = VoltageRaw / 0.0132;
-    DCCurrentAccumulative = DCCurrentAccumulative + DCCurrentOffset;
+    DCCurrentAccumulativeRaw = VoltageRaw / 0.013200;
 
-    // Remove Noise
+    // Round to 2 decimal places
+    DCCurrentAccumulativeRaw = roundf(DCCurrentAccumulativeRaw * 100000) / 100000;
+
+    // Adjust Offets
+    DCCurrentAccumulative = DCCurrentAccumulativeRaw + DCCurrentOffset + DCCurrentOffsetEEPROM;
+
+    // Remove Noise pending DCCurrentThreshold
     if (DCCurrentAccumulative > 0 && DCCurrentAccumulative < DCCurrentThreshold)
       DCCurrentAccumulative = 0;
 
     if (DCCurrentAccumulative < 0 && DCCurrentAccumulative > DCCurrentThreshold)
       DCCurrentAccumulative = 0;
 
+    // Derive Power
     DCPower = DCVoltage * DCCurrentAccumulative;
 
     // Invert reading values ending direction - default FALSE (i.e. Battery Negative to Battery Negative)
@@ -142,12 +148,24 @@ void ReadADC()
 
     // Output Values
     Serial.print("ADC Calculated: \t");
-    Serial.print(DCCurrentAccumulative);
+    Serial.print(DCCurrentAccumulative, 2);
     Serial.print(" A\t");
-    Serial.print(DCVoltage);
+    Serial.print(DCVoltage, 2);
     Serial.print(" V\t");
-    Serial.print(DCPower);
-    Serial.println(" W\n");
+    Serial.print(DCPower, 2);
+    Serial.print(" W\t");
+
+    // Display Status
+    if (DCCurrentOffset == 0 && DCCurrentOffsetEEPROM == 0)
+      Serial.print("(Uncalibrated)");
+
+    if (DCCurrentOffsetEEPROM != 0)
+      Serial.print("(Current Calibrated ~USB)");
+
+    if (DCCurrentOffset != 0)
+      Serial.print("(Current Offset Adjusted)");
+
+    Serial.println("\n");
 
     // Calculate NTC Resistance
     float Vo = readChannel(ADS1115_COMP_3_GND);
@@ -184,10 +202,10 @@ void CheckDCVINVoltage()
   if (ADS1115Enabled == true)
   {
     Serial.println();
-    if (DCVoltage < 5.2)
+    if (DCVoltage < 5.3)
       Serial.println("* " + AppAcronym + " Board appears to be only USB Powered " + String(DCVoltage) + "V\n* Power Calculations will not work in this mode");
 
-    if (DCVoltage >= 5.2)
+    if (DCVoltage >= 5.3)
       Serial.println("DC Voltage Input Detected " + String(DCVoltage) + "V");
 
     if (DCVoltage > 80)
