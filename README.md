@@ -44,7 +44,7 @@ Opensource IBEM Firmware is provided on our GitHub, using the standard PlatformI
     - NTC PCB Ambient Temperature
 - **DC Bi-Directional Current Sensor**
   - Cross chip CC6921BSO-100A 
-  - 2 Paralleled sensors providing up to +- 100A (peak +- 200A).
+  - 2 Paralleled sensors providing up to +- 100A (peak +- 150A).
   - 2 x M8 Stud Terminations
   - Low Side DC Monitoring for Safety
   - Current Sensor can be configured to be FULLY electrically isolated *(PCB link)*
