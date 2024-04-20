@@ -100,10 +100,10 @@ Opensource IBEM Firmware is provided on our GitHub, using the standard PlatformI
 
 - **ESP32-C3-MINI-1-N4** *(PCB Antenna)*
   - eBay: https://www.ebay.co.uk/itm/326080939227
-  - Amazon: *URL To follow*
+  - Amazon: https://www.amazon.co.uk/s?k=ditronix
 - **ESP32-C3-MINI-1U-N4** *(External Antenna via U. FL)
   - eBay: *URL To follow*
-  - Amazon: *URL To follow*
+  - Amazon: https://www.amazon.co.uk/s?k=ditronix
 
 ## **Further Information**
 
