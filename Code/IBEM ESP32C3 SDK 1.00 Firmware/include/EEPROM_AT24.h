@@ -205,7 +205,7 @@ void CalculateDCCurrentOffsetEEPROM()
   Serial.println("Calculate Current Offset to EEPROM");
 
   // Only update if Manual DCCurrentOffset is not updated and Powered via USB
-  if (DCCurrentOffset == 0 and DCVoltage < 5.3)
+  if (DCCurrentOffset == 0 and DCVoltage < 5.3 or (digitalRead(User_Button) == LOW))
   {
 
     // Update OLED

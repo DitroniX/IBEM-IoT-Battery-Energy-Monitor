@@ -174,7 +174,7 @@ void ReadADC()
 
     float FIX_R = 8000; // Nominal 10K
     float NTC_B = 0;    // β K (Default 3450)
-    int NTC_R = (FIX_R) / (Vo - 1);
+    int NTC_R = (FIX_R) / (Vo - 1.0);
     // Serial.print("\tNTC Resistance:\t");
     // Serial.println(NTC_R);
 

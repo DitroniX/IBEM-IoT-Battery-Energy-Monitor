@@ -151,11 +151,15 @@ void loop()
   // Check for Button Press
   if (digitalRead(User_Button) == LOW)
   {
-    Serial.println("Button Pressed");
+    Serial.println("Force Zero Current Calibrate");
     led.flash(RGBLed::GREEN, 250);
-    LED_Test();
-    TestADS1115();
-    delay(2000);
+    LED_Test();  // User Feedback
+
+    // DC Current Offset Check EEPROM
+    if (EEPROMEnabled == true)
+    {
+      CalculateDCCurrentOffsetEEPROM();
+    }
   }
 
   // Heatbeat LED

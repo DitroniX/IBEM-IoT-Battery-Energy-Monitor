@@ -24,7 +24,7 @@ int LoopDelay = 1; // Loop Delay in Seconds
 int OLEDDelay = 2; // OLED Delay in Seconds
 
 // Application Constants
-const String AppVersion = "240408"; // Internal Firmware Date Code
+const String AppVersion = "240720"; // Internal Firmware Date Code
 const String AppAcronym = "IBEM";   // Board Acronym - Do Not Change
 const String AppName = AppAcronym + " ESP32-C3 IoT Battery Energy Monitor";
 const String LocationName = "Battery 1"; // Enter Name Location of Device. Used for Serial Monitor and OLED.

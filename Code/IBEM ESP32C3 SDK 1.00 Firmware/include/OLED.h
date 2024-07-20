@@ -80,6 +80,13 @@ void InitialiseOLED()
 
         oled.init(I2C_SDA, I2C_SCL);
 
+        oled.setContrast(5); // 0..15
+        oled.setPower(true); // Default True. Set to false to turn off display.
+
+        // Set both to true or false to flip 180 degrees.
+        oled.flipH(false); // default false
+        oled.flipV(false); // default false
+
         // App and DitroniX
         oled.clear();
         OLEDPrint(AppAcronym, 4, 0);

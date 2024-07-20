@@ -23,3 +23,6 @@ Features include Battery, Monitor, IoT, Home Automation, Solar, Energy, MCU, Esp
  - 240408 Minor Updates
  	 - Auto Current Sensor Calibrate and Store in EEPROM
  	 - EEPROM routines updated
+ - 240720 Minor Updates
+ 	 - Improved Auto Current Sensor Calibrate and Store in EEPROM via Holding User Button at Zero Current.
+	 - Hold User Button until Auto Calibrate is dispayed.  This over-ride uses battery supply rather than USB to improve accuracy.  Remember to do this at zero current or you will have an offset.
