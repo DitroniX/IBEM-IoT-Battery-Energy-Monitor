@@ -1,8 +1,10 @@
 ## IBEM ESP32C3 IoT Battery Energy Monitor SDK  (NEW for March 2024)
 
+IBEM Connections and Overview
+![Display-Type-B](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/blob/main/Datasheets%20and%20Information/IBEM%20-%20IoT%20Battery%20Energy%20Monitor%20Board%20SDK%20Connections.jpg?raw=true)
+
 IBEM-ESP32C3-SDK v1 2403-101P
 ![Display-Type-B](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/blob/main/Datasheets%20and%20Information/IBEM-ESP32C3-SDK%20v1%202403-101P%20TopBottom.jpg?raw=true)
-
 
 _IBEM Connection Examples_
 ![IBEM Expanded Example Connections](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/blob/main/Datasheets%20and%20Information/IBEM%20Expanded%20Example%20Connections.png)
@@ -98,10 +100,10 @@ Opensource IBEM Firmware is provided on our GitHub, using the standard PlatformI
 
 - **ESP32-C3-MINI-1-N4** *(PCB Antenna)*
   - eBay: https://www.ebay.co.uk/itm/326080939227
-  - Amazon: *URL To follow*
+  - Amazon: https://www.amazon.co.uk/s?k=ditronix
 - **ESP32-C3-MINI-1U-N4** *(External Antenna via U. FL)
   - eBay: *URL To follow*
-  - Amazon: *URL To follow*
+  - Amazon: https://www.amazon.co.uk/s?k=ditronix
 
 ## **Further Information**
 
