@@ -1,48 +1,120 @@
-## Welcome
+## IBEM ESP32C3 IoT Battery Energy Monitor SDK Board
 
-Welcome to my **DitroniX GitHub Pages**, pertaining to the various  [Project Repositories](https://github.com/DitroniX?tab=repositories), Documentation and Code examples.
+IBEM Connections and Overview
+![Display-Type-B](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/blob/main/Datasheets%20and%20Information/IBEM%20-%20IoT%20Battery%20Energy%20Monitor%20Board%20SDK%20Connections.jpg?raw=true)
 
-**Supporting STEM Electronic Internet of Things & Home Automation Technology for Smart Energy Monitoring**
+IBEM-ESP32C3-SDK v1 2403-101P
+![Display-Type-B](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/blob/main/Datasheets%20and%20Information/IBEM-ESP32C3-SDK%20v1%202403-101P%20TopBottom.jpg?raw=true)
 
-[![KickStarter](https://github.com/DitroniX/DitroniX/blob/main/Files/KickStarter-SupportUs.png 'KickStarter')](https://www.kickstarter.com/profile/ditronix/created)
+_IBEM Connection Examples_
+![IBEM Expanded Example Connections](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/blob/main/Datasheets%20and%20Information/IBEM%20Expanded%20Example%20Connections.png)
 
-ESPuno Pi Zero - Pre-Release Overview SDK (Q1 2025)
-[![ESPuno Pi Zero](https://github.com/DitroniX/ESPuno-Pi-Zero_WiFi-BT-Zigbee-Thread-60V/blob/main/Datasheets%20and%20Information/ditronix.net%20ESPuno%20Pi%20Zero%20-%20ESP32-C6%20-%20Preview%202502.png 'ESPuno Pi Zero')](https://github.com/DitroniX/ESPuno-Pi-Zero_WiFi-BT-Zigbee-Thread-60V)
 
-ESPuno Pi - Pre-Release Overview SDK (Early Q2 2025)
-[![ESPuno Pi - Pre-Release Overview](https://github.com/DitroniX/DitroniX/blob/main/Files/ESPuno%20Pi%20-Block%20Diagram%20-%20PreRelease%20Information.jpg 'ESPuno Pi - Pre-Release Overview')](https://github.com/DitroniX/ESPuno-Pi-Raspberry-Pi-ESP32-Controller-Emulator)
+Prototype IBEM Proto Initial Power up Initial Commissioning and Testing.
+![Display-Type-B](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/blob/main/Datasheets%20and%20Information/IBEM-ESP32C3-SDK%20v1%202403-100%20PROTO%20Studs%20Test.jpg?raw=true)
 
-IPEM Raspberry Pi PiHat ATM90E32 ATM90E36 IoT Power Energy Monitor SDK 
-[![IPEM PiHat - Beta Overview](https://github.com/DitroniX/IPEM-PiHat-IoT-Power-Energy-Monitor/blob/main/Datasheets%20and%20Information/DitroniX.net%20IPEM%20Raspberry%20Pi%20PiHat%20Power%20Energy%20Monitor%20Board%20SDK%20Overview.png 'IPEM PiHat - Beta Overview')](https://github.com/DitroniX/IPEM-PiHat-IoT-Power-Energy-Monitor)
+IBEM-ESP32C3-SDK v1 2403-100 PROTO Bring-Up Test 
+![Display-Type-B](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/blob/main/Datasheets%20and%20Information/IBEM-ESP32C3-SDK%20v1%202403-100%20PROTO%20Bring-Up%20Test.jpg?raw=true)
 
-[![Display-Type-B](https://github.com/DitroniX/DitroniX/blob/main/Files/DitroniX.net%20IoT%20Banner%203.jpg?raw=true ' Energy Monitors')](https://github.com/DitroniX)
 
-**Power Energy Monitor Boards SDK Overview**
+IBEM-ESP32C3-SDK U.FL Version 3D (New April 2024)
+![Display-Type-B](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/blob/main/Datasheets%20and%20Information/IBEM-1%20ESP32-C3-1U%20IoT%20Battery%20Energy%20Monitor%203D.jpg?raw=true)
 
-STEM Energy Monitors SDK Board Options
-[![Display-Type-B](https://github.com/DitroniX/DitroniX/blob/main/Files/DitroniX.net%20STEM%20Energy%20Monitors%20SDK%20Board%20Options.jpg ' Energy Monitors')](https://github.com/DitroniX)
+**IBEM Overview**
 
-IBEM - IoT Battery Energy Monitor Board SDK Overview
-[![Display-Type-B](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/blob/main/Datasheets%20and%20Information/DitroniX.net%20IBEM%20-%20IoT%20Battery%20Energy%20Monitor%20Board%20SDK%20Overview.jpg?raw=true 'IBEM ESP32C3 IoT Battery Energy Monitor SDK Board')](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor)
+IBEM is a compact, self-contained, Solar System IoT Battery Energy Monitor, which can accurately measure current flow nominally up to +-100A (+-200A Peak), and voltage up to 80V DC.  This board essentially providing a complete voltage and power monitoring solution for your 48V, 36V, 24V or 12V batteries.
 
-GTEM IPEC IPEM - Mains Power Energy Monitor and Controller Boards SDK Overview
-[![Display-Type-B](https://github.com/DitroniX/DitroniX/blob/main/Files/DitroniX.net%20Power%20Energy%20Monitor%20Boards%20SDK%20Overview.jpg?raw=true ' Energy Monitors')](https://github.com/DitroniX))
+Based on the new Espressif ESP32C3 Mini, which has both Wi-Fi and BT, the IBEM SDK board is provided with onboard bi-directional DC current sensor, via M8 bolt terminals, into a 16-bit ADS1115 four channel ADC.  No external shunts required.
 
-**CO2 Air Quality and Compact Weather Monitor SDK**
-[![Display-Type-B](https://github.com/DitroniX/DitroniX/blob/main/Files/DitroniX.net%20AQIX%20Air%20Quality%20CO2%20%20and%20CWX%20Weather%20Monitors%20Overview.png?raw=true 'Weather Monitors SDK Boards')](https://github.com/DitroniX)
+Using the onboard 4.5 to 80V DC-DC SMPS, the board can easily be safely powered directly from the battery source – This also providing continuous monitoring of the battery voltage.
 
+Interface for programming, and development, is thought a standard Type C USB, into the onboard UART and ESP32C3, so making development and use, completely self-contained.
+
+Using the provided I2C interface, an OLED display can be plugged directly into the board, if required, for local monitoring and status information.
+
+Opensource IBEM Firmware is provided on our GitHub, using the standard PlatformIO platform. This monitors Current, Voltage (and Temperature), to derive Power Energy information, which can then be sent to your Home Automation, or cloud service, via provided MQTT or Domoticz, as standard.
+
+
+**IBEM Specification and Features**
+
+- **Compatible Examples of Battery Types**
+  - LI, SLD, FLD, GEL, AGM, LFP, NiCd, NiMH, LiPO, LIFePO4, VRLA.
+- **MCU**
+  - **Espressif ESP32-C3 Mini** - 2.4GHz Wi-Fi (802.11b/g/n) and Bluetooth 5
+    - ESP32-C3-MINI-1-N4 *(PCB Antenna)*
+    - ESP32-C3-MINI-1U-N4 *(External Antenna via U. FL cable)*
+- **16 Bit ADC (I2C)**
+  - ADS1115 (Analog to Digital Converter)
+    - DC Current *(Two paralleled channels)*
+    - DC Input Voltage Monitoring
+    - NTC PCB Ambient Temperature
+- **DC Bi-Directional Current Sensor**
+  - Cross chip CC6921BSO-100A 
+  - 2 Paralleled sensors providing up to +- 100A (peak +- 150A).
+  - 2 x M8 Stud Terminations
+  - Low Side DC Monitoring for Safety
+  - Current Sensor can be configured to be FULLY electrically isolated *(PCB link)*
+- **Type C Programming / Debug**
+  - Type C USB Connector
+  - CH340K USB UART 2Mbps Transceiver
+  - Easy programming.  Select ‘ESP32C3 Dev Module’
+  - BAUD rate up to 921600 to speed up Flashing
+  - Serial Monitoring Debug and Remote Logging
+  - Power Can Be Taken from USB 5V (when Flashing).
+- **EEPROM (I2C)**
+  - AT24C64 64Kbit
+  - On-board logging
+  - Firmware setup user parameters and configuration
+- **High Voltage SMPS DC-DC**
+  - Large Input Voltage Range 4.5V to 80V DC
+  - SSP9481 step-down switch-mode with a built-in power MOSFET
+  - Can be used on 12V, 24V, 36V and 48V Systems.
+  - Resettable PCB DC Input Fuse *(100mA continuous, 250mA Trip)*
+  - Board can be also powered from USB when programming
+  - DC input taken from battery under test (separate positive terminal)
+- **On-Board Temperature**
+  - NTC Ambient PCB Temperature Sensor
+- **External Temperature**
+  - Dallas OneWire Interface for External Temperatures
+    - *Example Probe Sensor to Battery Cells*
+- **DC Moving Coil Meter**
+  - PWM Output Interface to External Moving Coil Meter
+  - 100uA single full scale, or centre zero
+- **RGB LED - Status**
+  - Configured to three GPIO’s for easy Firmware control
+- **RGB LED – Power**
+  - Power, UART TXD and USB Power Indicator
+- **I2C OLED Connector**
+  - Configurable 3V3 Pin 1 and 2 polarities
+  - PCB 4 Pin Header Connector
+- **Buttons**
+  - Reset
+  - User (Program or GP9 Detect)
+- **Compact Design and Easy to Use**
+  - PCB 53mm x 70mm
+  - 4 x M3 mounting holes (one grounded to DC-DC ground)
+  - Operating Ambient Temperature -40 to +85 °C
+  - Optional Conformal Coating – on request.
+
+## **Ordering**
+
+- **ESP32-C3-MINI-1-N4** *(PCB Antenna)*
+  - eBay: https://www.ebay.co.uk/itm/326080939227
+  - Amazon: https://www.amazon.co.uk/s?k=ditronix
+- **ESP32-C3-MINI-1U-N4** *(External Antenna via U. FL)
+  - eBay: *URL To follow*
+  - Amazon: https://www.amazon.co.uk/s?k=ditronix
 ## **Purchase**
 [![Display-Type-B](https://raw.githubusercontent.com/DitroniX/DitroniX/main/Files/DitroniX.net%20STEM%20IoT%20eBay.jpg?raw=true)](https://www.ebay.co.uk/usr/ditronixuk)
 
 Our STEM SDK boards and accessories are available from our online shops on [eBay](https://www.ebay.co.uk/usr/ditronixuk) 
-
 ## **Further Information**
 
 Additional information, and other technical details on this project, maybe found in the related repository pages.
 
 **Repository Folders**
 
- - **Code** *(Code examples for Raspberry Pi, Arduino  IDE and PlatformIO)*
+ - **Code** *(Code examples for Arduino  IDE and PlatformIO)*
  -  **Datasheets and Information** *(Component Datasheets, Schematics, Board Layouts, Photos, Technical Documentation)*
  - **Certification** *(Related Repository Project or Part, Certification Information)*
 
