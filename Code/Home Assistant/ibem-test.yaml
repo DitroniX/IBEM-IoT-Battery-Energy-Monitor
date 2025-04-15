@@ -1,0 +1,116 @@
+# Still WIP, it does work but have to save cal value and the display routines
+
+esphome:
+  name: ibem-test
+  friendly_name: IBEM Test
+  libraries:
+    - EEPROM
+
+esp32:
+  board: esp32-c3-devkitm-1
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "##"
+
+ota:
+  - platform: esphome
+    password: "##"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "##"
+    password: "##"
+
+captive_portal:
+
+font:
+  - file: 'fonts/Arial.ttf'
+    id: font8
+    size: 14
+
+i2c:
+  sda: 4
+  scl: 5
+  scan: true
+  id: bus_a
+
+binary_sensor:
+  - platform: gpio
+    name: "Relay state"
+    id: relayState
+    pin: 
+      inverted: true
+      number: 9
+      mode:
+        input: true
+        pullup: true
+
+ads1115:
+  - address: 0x48
+
+sensor:
+  - platform: ads1115
+    multiplexer: "A0_GND"
+    id: a0_gnd
+    gain: 4.096
+    filters:
+      - lambda: return ((x * 30.9369) + 0.53)  ;
+    name: "A0"
+    update_interval: 10s
+
+  - platform: ads1115
+    multiplexer: "A1_GND"
+    id: a1_gnd
+    gain: 4.096
+    name: "A1"
+    update_interval: 10s
+
+  - platform: ads1115
+    multiplexer: "A2_GND"
+    id: a2_gnd
+    gain: 4.096
+    name: "A2"
+    update_interval: 10s
+
+  - platform: ads1115
+    multiplexer: "A3_GND"
+    gain: 4.096
+    name: "A3"
+    update_interval: 10s
+
+  - platform: template
+    name: "Amps"
+    lambda: |-
+      float VoltRaw = (id(a1_gnd).state + id(a2_gnd).state);
+      float VoltRaw2 = (id(a1_gnd).state + id(a2_gnd).state) - 3.3;
+      float dcCAR = (VoltRaw2 / 0.013200) - 3.115531;
+      float DCPower = id(a0_gnd).state * dcCAR;
+      ESP_LOGD("main", "VR1 %f, VR2 %f, DCCAR %f, DCP %f", VoltRaw, VoltRaw2, dcCAR, DCPower);
+      if (dcCAR < 0.20) {
+        return 0;
+      } else {
+        return (dcCAR);
+      }
+    unit_of_measurement: A
+    update_interval: 10s
+
+display:
+  - platform: ssd1306_i2c
+    id: i2cdisplay
+    model: "SSD1306 128x32"
+    #reset_pin: D0
+    address: 0x3C
+    lambda: |- 
+      it.printf(0, 0, id(font8), TextAlign::TOP_LEFT, "Hello IBEM");
+    
