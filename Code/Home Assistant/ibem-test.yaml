@@ -1,10 +1,9 @@
-# Still WIP, it does work but have to save cal value and the display routines
-
 esphome:
   name: ibem-test
   friendly_name: IBEM Test
-  libraries:
-    - EEPROM
+
+substitutions:
+  ShowRAWADVals: "False"
 
 esp32:
   board: esp32-c3-devkitm-1
@@ -17,11 +16,11 @@ logger:
 # Enable Home Assistant API
 api:
   encryption:
-    key: "##"
+    key: !secret ibem_api_key
 
 ota:
   - platform: esphome
-    password: "##"
+    password: !secret ibem_ota_password
 
 wifi:
   ssid: !secret wifi_ssid
@@ -29,14 +28,20 @@ wifi:
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
-    ssid: "##"
-    password: "##"
+    ssid: "Ibem-Test Fallback Hotspot"
+    password: "8a39Alx5Dtgb"
 
 captive_portal:
 
+globals:
+  - id: DCCALValue
+    type: float
+    restore_value: yes
+    initial_value: '0'
+  
 font:
   - file: 'fonts/Arial.ttf'
-    id: font8
+    id: font14
     size: 14
 
 i2c:
@@ -45,27 +50,29 @@ i2c:
   scan: true
   id: bus_a
 
-binary_sensor:
-  - platform: gpio
-    name: "Relay state"
-    id: relayState
-    pin: 
-      inverted: true
-      number: 9
-      mode:
-        input: true
-        pullup: true
-
 ads1115:
   - address: 0x48
 
+button:
+  - platform: template
+    name: "Store Calibration Reading"
+    on_press:
+      then:
+        - lambda: |-
+            float VoltRaw2 = (id(a1_gnd).state + id(a2_gnd).state) - 3.3;
+            float dcCAR = (VoltRaw2 / 0.013200);
+            float dcCAR2 = roundf(dcCAR * 100000) / 100000;
+
+            id(DCCALValue) = -dcCAR2;
+
+            ESP_LOGD("main", "Value: %f Global Val: %f", dcCAR2, id(DCCALValue));
 sensor:
   - platform: ads1115
     multiplexer: "A0_GND"
     id: a0_gnd
     gain: 4.096
-    filters:
-      - lambda: return ((x * 30.9369) + 0.53)  ;
+    #filters:
+    #  - lambda: return ((x * 30.9369) + 0.53);
     name: "A0"
     update_interval: 10s
 
@@ -74,6 +81,7 @@ sensor:
     id: a1_gnd
     gain: 4.096
     name: "A1"
+    internal: ${ShowRAWADVals}
     update_interval: 10s
 
   - platform: ads1115
@@ -81,20 +89,31 @@ sensor:
     id: a2_gnd
     gain: 4.096
     name: "A2"
+    internal: ${ShowRAWADVals}
     update_interval: 10s
 
   - platform: ads1115
     multiplexer: "A3_GND"
     gain: 4.096
     name: "A3"
+    internal: ${ShowRAWADVals}
+    update_interval: 10s
+
+  - platform: template
+    name: "Volts"
+    id: calc_volts
+    lambda: |-
+      return ((id(a0_gnd).state * 30.9369) + 0.53);
+    unit_of_measurement: A
     update_interval: 10s
 
   - platform: template
     name: "Amps"
+    id: calc_amps
     lambda: |-
       float VoltRaw = (id(a1_gnd).state + id(a2_gnd).state);
       float VoltRaw2 = (id(a1_gnd).state + id(a2_gnd).state) - 3.3;
-      float dcCAR = (VoltRaw2 / 0.013200) - 3.115531;
+      float dcCAR = (VoltRaw2 / 0.013200) + id(DCCALValue);
       float DCPower = id(a0_gnd).state * dcCAR;
       ESP_LOGD("main", "VR1 %f, VR2 %f, DCCAR %f, DCP %f", VoltRaw, VoltRaw2, dcCAR, DCPower);
       if (dcCAR < 0.20) {
@@ -112,5 +131,6 @@ display:
     #reset_pin: D0
     address: 0x3C
     lambda: |- 
-      it.printf(0, 0, id(font8), TextAlign::TOP_LEFT, "Hello IBEM");
+      it.printf(0, 0, id(font14), TextAlign::TOP_LEFT, "%.2f A", id(calc_amps).state);
+      it.printf(0, 15, id(font14), TextAlign::TOP_LEFT, "%.2f A", id(a0_gnd).state);
     
