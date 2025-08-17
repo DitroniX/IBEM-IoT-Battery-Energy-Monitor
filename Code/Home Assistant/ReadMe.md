@@ -7,5 +7,7 @@ ShowRAWADVals: True / False
 # Dependencies
 Requires the Arial.ttf file or other font for display routines
 
-Example inforamtion of uploading fonts.  The filename is case-sensitive.
-  In IBEM, the font(s) are stored in /homeassistant/esphome/fonts
+Example information of uploading fonts.  The filename is case-sensitive.
+https://quinled.info/esphome-font-upload/ 
+
+NB.In IBEM, the font(s) are stored in /homeassistant/esphome/fonts
