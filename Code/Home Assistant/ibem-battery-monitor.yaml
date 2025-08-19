@@ -1,0 +1,307 @@
+# This code is for development and test of thte IBEM Battery Monitor Board in Home Assistant# 
+# Draft May 2025 DX.  
+# * Basic Test Code
+# Updates 250819 DW.  Newbie to YAML..
+# * Added charge percentage for LiFePO4
+# * Added LEDs
+# * Added User Button (Used to Force Zero Calibration)
+# * Added NTC Temperature
+# * Updated Zero Calibaration.   Remember to connect to battery but at ZERO current flow, then calibrate.
+# * Updated OLED
+# * Various 
+
+esphome:
+  name: ibem-battery
+  friendly_name: IBEM (Battery)
+
+esp32:
+  board: esp32-c3-devkitm-1
+  framework:
+    type: esp-idf
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "#####"
+
+ota:
+  - platform: esphome
+    password: "#####"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Ibem-Battery Fallback Hotspot"
+    password: "#####"
+
+captive_portal:
+
+# ------------------------------------------------- #      
+
+substitutions:
+  ShowRAWADVals: "False"  
+
+globals:
+  - id: DCCALValue
+    type: float
+    restore_value: yes
+    initial_value: '0'
+
+font:
+  - file: 'fonts/arial.ttf'
+    id: font24
+    size: 24
+
+# ------------------------------------------------- #    
+
+i2c:
+  sda: 4
+  scl: 5
+  scan: true
+  id: bus_a
+
+ads1115:
+  - address: 0x48
+
+# ------------------------------------------------- #    
+
+binary_sensor: # This calibrates to Zero current flow and stores the calibration value
+  - platform: gpio
+    pin: 
+      number: GPIO9
+      inverted: true
+      mode: INPUT_PULLUP
+    name: "User Button"
+
+    on_press:
+      then:
+        - switch.turn_on: Blue_LED   
+        - delay: '00:00:02'  
+        - lambda: |-
+              float VoltRaw2 = (id(a1_gnd).state + id(a2_gnd).state) - 3.3;
+              float dcCAR = (VoltRaw2 / 0.013200);
+              float dcCAR2 = roundf(dcCAR * 100000) / 100000;
+
+              id(DCCALValue) = -dcCAR2;
+
+              ESP_LOGD("Zero Calibration", "Value: %f Global Val: %f", dcCAR2, id(DCCALValue));
+            
+        - switch.turn_off: Blue_LED    
+
+# ------------------------------------------------- #      
+
+button: # This calibrates to Zero current flow and stores the calibration value
+  - platform: template
+    name: "Zero Store Calibration Reading. Install. Turn off Current Flow then Calibrate Zero."
+    on_press:
+      then:
+        - switch.turn_on: Blue_LED   
+        - delay: '00:00:02'  
+        - lambda: |-
+              float VoltRaw2 = (id(a1_gnd).state + id(a2_gnd).state) - 3.3;
+              float dcCAR = (VoltRaw2 / 0.013200);
+              float dcCAR2 = roundf(dcCAR * 100000) / 100000;
+
+              id(DCCALValue) = -dcCAR2;
+
+              ESP_LOGD("Zero Calibration", "Value: %f Global Val: %f", dcCAR2, id(DCCALValue));
+              
+        - switch.turn_off: Blue_LED    
+
+  # ------------------------------------------------- #  
+
+switch:
+  - platform: gpio
+    id: Red_LED
+    name: "Red LED"  
+    pin:
+      number: GPIO10
+      mode: output
+    
+  - platform: gpio
+    id: Green_LED 
+    name: "Green LED"  
+    pin:
+      number: GPIO18
+      mode: output
+       
+  - platform: gpio
+    id: Blue_LED
+    name: "Blue LED"  
+    pin:
+      number: GPIO19
+      mode: output
+       
+# ------------------------------------------------- #   
+
+sensor: 
+  - platform: ads1115 # DC Volts
+    multiplexer: "A0_GND"
+    id: a0_gnd
+    gain: 4.096
+    name: "A0 (DCV)"
+    update_interval: 5s
+
+  - platform: ads1115 # CC6921 Output 1
+    multiplexer: "A1_GND"
+    id: a1_gnd
+    gain: 4.096
+    name: "A1 (I1)"
+    internal: ${ShowRAWADVals}
+    update_interval: 5s
+
+  - platform: ads1115 # CC6921 Output 2
+    multiplexer: "A2_GND"
+    id: a2_gnd
+    gain: 4.096
+    name: "A2 (I2)"
+    internal: ${ShowRAWADVals}
+    update_interval: 5s
+
+  - platform: ads1115 # NTC
+    multiplexer: "A3_GND"
+    id: a3_gnd
+    gain: 4.096
+    name: "A3 (NTC)"
+    internal: ${ShowRAWADVals}
+    update_interval: 5s
+
+ # ------------------------------------------------- #    
+
+# Calibration values for 48-60V #
+
+  - platform: template
+    name: "Voltage"
+    id: calc_volts
+    unit_of_measurement: V
+    update_interval: 5s
+    lambda: |-
+      float VoltRaw = ((id(a0_gnd).state * 30.9369) + 0.53);  
+      return (VoltRaw); 
+
+# ------------------------------------------------- #        
+
+  - platform: template
+    name: "Current"
+    id: calc_amps
+    unit_of_measurement: A
+    update_interval: 5s
+    lambda: |-
+      float VoltRaw = (id(a1_gnd).state + id(a2_gnd).state);
+      float VoltRaw2 = (id(a1_gnd).state + id(a2_gnd).state) - 3.3;
+      float dcCAR = (VoltRaw2 / 0.013200) + id(DCCALValue);
+      float DCPower = id(a0_gnd).state * dcCAR;
+      ESP_LOGD("Current", "VR1 %f, VR2 %f, DCCAR %f, DCP %f", VoltRaw, VoltRaw2, dcCAR, DCPower);
+      if (dcCAR < 0.20) {
+        return 0;
+      } else {
+        return (dcCAR);
+      }
+
+# ------------------------------------------------- #   
+# https://www.ecoflow.com/us/blog/lifepo4-voltage-chart
+
+  - platform: template
+    name: "Percentage"
+    id: calc_percentage        
+    unit_of_measurement: '%'
+    update_interval: 5s    
+    lambda: |-
+      float VoltRaw = (id(calc_volts).state);
+      float BattState = 0;
+      if (VoltRaw <= 40 ) 
+        BattState = 0; 
+      if (VoltRaw > 40 and VoltRaw < 48 ) 
+        BattState = 5;           
+      if (VoltRaw >= 48 and VoltRaw < 50 ) 
+        BattState =  10;
+      if (VoltRaw >= 50 and VoltRaw < 51.2 ) 
+        BattState =  20;
+      if (VoltRaw >= 51.2 and VoltRaw < 51.6 ) 
+        BattState =  30;
+      if (VoltRaw >= 51.6 and VoltRaw < 52.0 ) 
+        BattState =  40;
+      if (VoltRaw >= 52.0 and VoltRaw < 52.4 ) 
+        BattState =  50;
+      if (VoltRaw >= 52.4 and VoltRaw < 52.8 ) 
+        BattState =  60;
+      if (VoltRaw >= 52.8 and VoltRaw < 53.2 ) 
+        BattState =  70;
+      if (VoltRaw >= 53.2 and VoltRaw < 53.6 ) 
+        BattState =  80;      
+      if (VoltRaw >= 53.6 and VoltRaw < 54.4 ) 
+        BattState =  90;      
+      if (VoltRaw >= 54.4 and VoltRaw < 58.4 ) 
+        BattState =  100;     
+      if (VoltRaw >= 58.4) 
+        BattState =  999;  
+
+      ESP_LOGD("BatteryState", "VoltRaw %f, BattState %f", VoltRaw, BattState);        
+      return (BattState);
+                                
+# ------------------------------------------------- #    
+
+  - platform: template
+    name: "Power"
+    id: calc_watts
+    unit_of_measurement: W
+    update_interval: 5s        
+    lambda: |-
+      float VoltRaw = (id(a1_gnd).state + id(a2_gnd).state);
+      float VoltRaw2 = (id(a1_gnd).state + id(a2_gnd).state) - 3.3;
+      float DCCurrent = (VoltRaw2 / 0.013200) + id(DCCALValue);
+      if (DCCurrent < 0.20) {
+        DCCurrent =  0;
+      }
+      float DCVoltage = (id(calc_volts).state);  
+      float DCPower = DCCurrent * DCVoltage;
+      ESP_LOGD("Power", "Voltage %f, Current %f, Power %f", DCVoltage, DCCurrent, DCPower); 
+      return (DCPower);
+
+# ------------------------------------------------- #           
+
+  - platform: template
+    name: "PCB Temperature"
+    id: pcb_temp
+    unit_of_measurement: °C
+    update_interval: 5s     
+    lambda: |-
+      float Vo = ((id(a0_gnd).state)); 
+      float FIX_R = 8000; // Nominal 10K
+      float NTC_B = 0;    // β K (Default 3450)
+      int NTC_R = (FIX_R) / (Vo - 1.0);
+      float logNTC;
+      float c1 = 1.009249522e-03, c2 = 2.378405444e-04, c3 = 2.019202697e-07;
+      logNTC = log(NTC_R + NTC_B);
+      float BoardTemperatureK = (1.0 / (c1 + c2 * logNTC + c3 * logNTC * logNTC * logNTC));
+      float BoardTemperatureC = BoardTemperatureK - 273.15;       // Celsius
+      float BoardTemperatureF = (BoardTemperatureC * 1.8) + 32.0; // Fahrenheit
+      ESP_LOGD("NTC", "TempC %f, TempF %f", BoardTemperatureC, BoardTemperatureF);    
+      return (BoardTemperatureC);   
+
+# ------------------------------------------------- #       
+
+display:
+  - platform: ssd1306_i2c
+    id: i2cdisplay
+    model: "SSD1306 128x64"
+    address: 0x3C
+    lambda: |- 
+      it.printf(24, 0, id(font24), TextAlign::TOP_LEFT, "%.1f V", id(calc_volts).state);
+      it.printf(20, 21, id(font24), TextAlign::TOP_LEFT, "%.0f W", id(calc_watts).state);          
+      it.printf(0, 42, id(font24), TextAlign::TOP_LEFT, "%.0f %%", id(calc_percentage).state);   
+      it.printf(68, 42, id(font24), TextAlign::TOP_LEFT, "%.0f °C", id(pcb_temp).state);
+
+# ------------------------------------------------- #             
+
+  # Heatbeat Red LED
+  # Interval:
+  #   - interval: 1s
+  #       then:
+  #        - switch.toggle: Red_LED
