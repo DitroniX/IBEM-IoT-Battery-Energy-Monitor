@@ -9,6 +9,9 @@
 # * Updated Zero Calibaration.   Remember to connect to battery but at ZERO current flow, then calibrate.
 # * Updated OLED
 # * Various 
+# Updates 250820 DW.  
+# * Averaging and Denoise
+# * Customize Battery Percentages
 
 esphome:
   name: ibem-battery
@@ -147,6 +150,10 @@ sensor:
     gain: 4.096
     name: "A0 (DCV)"
     update_interval: 5s
+    filters:
+      - sliding_window_moving_average:
+          window_size: 15
+          send_every: 15       
 
   - platform: ads1115 # CC6921 Output 1
     multiplexer: "A1_GND"
@@ -154,7 +161,11 @@ sensor:
     gain: 4.096
     name: "A1 (I1)"
     internal: ${ShowRAWADVals}
-    update_interval: 5s
+    update_interval: 1s
+    filters:
+      - sliding_window_moving_average:
+          window_size: 15
+          send_every: 15    
 
   - platform: ads1115 # CC6921 Output 2
     multiplexer: "A2_GND"
@@ -162,7 +173,11 @@ sensor:
     gain: 4.096
     name: "A2 (I2)"
     internal: ${ShowRAWADVals}
-    update_interval: 5s
+    update_interval: 1s
+    filters:
+      - sliding_window_moving_average:
+          window_size: 15
+          send_every: 15    
 
   - platform: ads1115 # NTC
     multiplexer: "A3_GND"
@@ -171,6 +186,10 @@ sensor:
     name: "A3 (NTC)"
     internal: ${ShowRAWADVals}
     update_interval: 5s
+    filters:
+      - sliding_window_moving_average:
+          window_size: 15
+          send_every: 15       
 
  # ------------------------------------------------- #    
 
@@ -191,21 +210,22 @@ sensor:
     name: "Current"
     id: calc_amps
     unit_of_measurement: A
-    update_interval: 5s
+    update_interval: 1s
     lambda: |-
       float VoltRaw = (id(a1_gnd).state + id(a2_gnd).state);
       float VoltRaw2 = (id(a1_gnd).state + id(a2_gnd).state) - 3.3;
       float dcCAR = (VoltRaw2 / 0.013200) + id(DCCALValue);
       float DCPower = id(a0_gnd).state * dcCAR;
       ESP_LOGD("Current", "VR1 %f, VR2 %f, DCCAR %f, DCP %f", VoltRaw, VoltRaw2, dcCAR, DCPower);
-      if (dcCAR < 0.20) {
-        return 0;
-      } else {
-        return (dcCAR);
-      }
+      return (dcCAR * 4);
+
+    # if (dcCAR < 0.20) {
+    #   return 0;
+    # } else {
+    # }
 
 # ------------------------------------------------- #   
-# https://www.ecoflow.com/us/blog/lifepo4-voltage-chart
+# Custom
 
   - platform: template
     name: "Percentage"
@@ -217,33 +237,63 @@ sensor:
       float BattState = 0;
       if (VoltRaw <= 40 ) 
         BattState = 0; 
-      if (VoltRaw > 40 and VoltRaw < 48 ) 
-        BattState = 5;           
-      if (VoltRaw >= 48 and VoltRaw < 50 ) 
+      if (VoltRaw > 40 and VoltRaw < 46.0 ) 
+        BattState = 1; 
+      if (VoltRaw > 46 and VoltRaw < 46.9 ) 
+        BattState = 5;                   
+      if (VoltRaw >= 46.9 and VoltRaw < 47.9 ) 
         BattState =  10;
-      if (VoltRaw >= 50 and VoltRaw < 51.2 ) 
-        BattState =  20;
-      if (VoltRaw >= 51.2 and VoltRaw < 51.6 ) 
-        BattState =  30;
-      if (VoltRaw >= 51.6 and VoltRaw < 52.0 ) 
-        BattState =  40;
-      if (VoltRaw >= 52.0 and VoltRaw < 52.4 ) 
+      if (VoltRaw >= 47.9 and VoltRaw < 48.6 ) 
         BattState =  50;
-      if (VoltRaw >= 52.4 and VoltRaw < 52.8 ) 
-        BattState =  60;
-      if (VoltRaw >= 52.8 and VoltRaw < 53.2 ) 
-        BattState =  70;
-      if (VoltRaw >= 53.2 and VoltRaw < 53.6 ) 
-        BattState =  80;      
-      if (VoltRaw >= 53.6 and VoltRaw < 54.4 ) 
-        BattState =  90;      
+      if (VoltRaw >= 48.6 and VoltRaw < 50.4 ) 
+        BattState =  90;        
+      if (VoltRaw >= 50.4 and VoltRaw < 50.9 ) 
+        BattState =  95;           
+      if (VoltRaw >= 50.9 and VoltRaw < 51.0 ) 
+        BattState =  97;           
+      if (VoltRaw >= 51.0 and VoltRaw < 51.3 ) 
+        BattState =  98;      
+      if (VoltRaw >= 51.3 and VoltRaw < 52.5 ) 
+        BattState =  99;            
+      if (VoltRaw >= 52.5 and VoltRaw < 54.4 ) 
+        BattState =  100;      
       if (VoltRaw >= 54.4 and VoltRaw < 58.4 ) 
-        BattState =  100;     
+        BattState =  888;     
       if (VoltRaw >= 58.4) 
         BattState =  999;  
 
       ESP_LOGD("BatteryState", "VoltRaw %f, BattState %f", VoltRaw, BattState);        
       return (BattState);
+
+    # https://www.ecoflow.com/us/blog/lifepo4-voltage-chart    
+    # float VoltRaw = (id(calc_volts).state);
+    # float BattState = 0;
+    # if (VoltRaw <= 40 ) 
+    #   BattState = 0; 
+    # if (VoltRaw > 40 and VoltRaw < 48 ) 
+    #   BattState = 5;           
+    # if (VoltRaw >= 48 and VoltRaw < 50 ) 
+    #   BattState =  10;
+    # if (VoltRaw >= 50 and VoltRaw < 51.2 ) 
+    #   BattState =  20;
+    # if (VoltRaw >= 51.2 and VoltRaw < 51.6 ) 
+    #   BattState =  30;
+    # if (VoltRaw >= 51.6 and VoltRaw < 52.0 ) 
+    #   BattState =  40;
+    # if (VoltRaw >= 52.0 and VoltRaw < 52.4 ) 
+    #   BattState =  50;
+    # if (VoltRaw >= 52.4 and VoltRaw < 52.8 ) 
+    #   BattState =  60;
+    # if (VoltRaw >= 52.8 and VoltRaw < 53.2 ) 
+    #   BattState =  70;
+    # if (VoltRaw >= 53.2 and VoltRaw < 53.6 ) 
+    #   BattState =  80;      
+    # if (VoltRaw >= 53.6 and VoltRaw < 54.4 ) 
+    #   BattState =  90;      
+    # if (VoltRaw >= 54.4 and VoltRaw < 58.4 ) 
+    #   BattState =  100;     
+    # if (VoltRaw >= 58.4) 
+    #   BattState =  999;        
                                 
 # ------------------------------------------------- #    
 
@@ -251,17 +301,13 @@ sensor:
     name: "Power"
     id: calc_watts
     unit_of_measurement: W
-    update_interval: 5s        
+    update_interval: 1s        
     lambda: |-
       float VoltRaw = (id(a1_gnd).state + id(a2_gnd).state);
       float VoltRaw2 = (id(a1_gnd).state + id(a2_gnd).state) - 3.3;
-      float DCCurrent = (VoltRaw2 / 0.013200) + id(DCCALValue);
-      if (DCCurrent < 0.20) {
-        DCCurrent =  0;
-      }
       float DCVoltage = (id(calc_volts).state);  
-      float DCPower = DCCurrent * DCVoltage;
-      ESP_LOGD("Power", "Voltage %f, Current %f, Power %f", DCVoltage, DCCurrent, DCPower); 
+      float DCPower = (id(calc_amps).state) * DCVoltage;
+      ESP_LOGD("Power", "Voltage %f, Current %f, Power %f", DCVoltage, (id(calc_amps).state), DCPower); 
       return (DCPower);
 
 # ------------------------------------------------- #           
@@ -282,7 +328,7 @@ sensor:
       float BoardTemperatureK = (1.0 / (c1 + c2 * logNTC + c3 * logNTC * logNTC * logNTC));
       float BoardTemperatureC = BoardTemperatureK - 273.15;       // Celsius
       float BoardTemperatureF = (BoardTemperatureC * 1.8) + 32.0; // Fahrenheit
-      ESP_LOGD("NTC", "TempC %f, TempF %f", BoardTemperatureC, BoardTemperatureF);    
+      ESP_LOGD("NTC", "Raw %d, TempC %f, TempF %f", id(a3_gnd).state, BoardTemperatureC, BoardTemperatureF);    
       return (BoardTemperatureC);   
 
 # ------------------------------------------------- #       
