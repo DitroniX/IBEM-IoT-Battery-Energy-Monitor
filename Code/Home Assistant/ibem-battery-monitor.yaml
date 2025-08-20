@@ -272,7 +272,7 @@ sensor:
     unit_of_measurement: °C
     update_interval: 5s     
     lambda: |-
-      float Vo = ((id(a0_gnd).state)); 
+      float Vo = ((id(a3_gnd).state)); 
       float FIX_R = 8000; // Nominal 10K
       float NTC_B = 0;    // β K (Default 3450)
       int NTC_R = (FIX_R) / (Vo - 1.0);
