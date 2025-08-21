@@ -12,6 +12,9 @@
 # Updates 250820 DW.  
 # * Averaging and Denoise
 # * Customize Battery Percentages
+# Updates 250821 DW.  
+# * Added Dallas Probe Temperature Sensor
+# * Battery Bank [BattBanks] Multiplier added as a temporary workaround for summing multiple sensors into a single HA value.
 
 esphome:
   name: ibem-battery
@@ -71,6 +74,14 @@ i2c:
 
 ads1115:
   - address: 0x48
+
+# ------------------------------------------------- #     
+
+# DS18B20 Temperature Sensor
+one_wire:
+  - platform: gpio
+    pin: GPIO6
+    id: bus1  
 
 # ------------------------------------------------- #    
 
@@ -141,9 +152,15 @@ switch:
       number: GPIO19
       mode: output
        
-# ------------------------------------------------- #   
+ 
+# ------------------------------------------------- #     
 
-sensor: 
+sensor:
+  - platform: dallas_temp
+    one_wire_id: bus1
+    name: Temperature Probe
+    update_interval: 30s
+
   - platform: ads1115 # DC Volts
     multiplexer: "A0_GND"
     id: a0_gnd
@@ -204,7 +221,8 @@ sensor:
       float VoltRaw = ((id(a0_gnd).state * 30.9369) + 0.53);  
       return (VoltRaw); 
 
-# ------------------------------------------------- #        
+# ------------------------------------------------- #   
+# Battery Bank [BattBanks] Multiplier added as a temporary workaround for summing multiple sensors into a single HA value.   
 
   - platform: template
     name: "Current"
@@ -212,18 +230,14 @@ sensor:
     unit_of_measurement: A
     update_interval: 1s
     lambda: |-
+      int BattBanks = 4;
       float VoltRaw = (id(a1_gnd).state + id(a2_gnd).state);
       float VoltRaw2 = (id(a1_gnd).state + id(a2_gnd).state) - 3.3;
       float dcCAR = (VoltRaw2 / 0.013200) + id(DCCALValue);
       float DCPower = id(a0_gnd).state * dcCAR;
       ESP_LOGD("Current", "VR1 %f, VR2 %f, DCCAR %f, DCP %f", VoltRaw, VoltRaw2, dcCAR, DCPower);
-      return (dcCAR * 4);
-
-    # if (dcCAR < 0.20) {
-    #   return 0;
-    # } else {
-    # }
-
+      return (dcCAR * BattBanks);  
+      
 # ------------------------------------------------- #   
 # Custom
 
@@ -265,7 +279,7 @@ sensor:
       ESP_LOGD("BatteryState", "VoltRaw %f, BattState %f", VoltRaw, BattState);        
       return (BattState);
 
-    # https://www.ecoflow.com/us/blog/lifepo4-voltage-chart    
+    # https://www.ecoflow.com/us/blog/lifepo4-voltage-chart    [Example Values]
     # float VoltRaw = (id(calc_volts).state);
     # float BattState = 0;
     # if (VoltRaw <= 40 ) 
