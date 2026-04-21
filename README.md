@@ -1,5 +1,7 @@
 ## IBEM ESP32C3 IoT Battery Energy Monitor SDK Board
 
+UPDATE: 20th April 2026.  This board is in redesign.
+
 IBEM Connections and Overview
 ![Display-Type-B](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/blob/main/Datasheets%20and%20Information/IBEM%20-%20IoT%20Battery%20Energy%20Monitor%20Board%20SDK%20Connections.jpg?raw=true)
 
