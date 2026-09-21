@@ -1,6 +1,17 @@
 ## IBEM ESP32C3 IoT Battery Energy Monitor SDK Board
 
-UPDATE: 20th April 2026.  This board is in redesign.
+**Supporting STEM Electronic Internet of Things & Home Automation Technology for Smart Energy Monitoring**
+
+[![DitroniX WiKi Pages](https://github.com/DitroniX/DitroniX/blob/main/Files/GitHub%20WiKi.png?raw=true)](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/wiki)
+
+[![DitroniX FAQ Pages](https://github.com/DitroniX/DitroniX/blob/main/Files/GitHub%20WiKi%20FAQ.png?raw=true)](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/wiki/FAQ)
+
+[![ESPHome - Home Assistant Integrations](https://github.com/DitroniX/DitroniX/blob/main/Files/Home%20Assistant%20-ESPHome%20Integration.png?raw=true)](https://github.com/DitroniX/Home-Assistant-Dev)
+
+[![DitroniX Discussions](https://github.com/DitroniX/DitroniX/blob/main/Files/GitHub%20Discussions.png?raw=true)](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/discussions)
+
+
+[**For Latest Project Updates - Click Here**](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor?tab=readme-ov-file#updates)
 
 IBEM Connections and Overview
 ![Display-Type-B](https://github.com/DitroniX/IBEM-IoT-Battery-Energy-Monitor/blob/main/Datasheets%20and%20Information/IBEM%20-%20IoT%20Battery%20Energy%20Monitor%20Board%20SDK%20Connections.jpg?raw=true)
@@ -97,6 +108,14 @@ Opensource IBEM Firmware is provided on our GitHub, using the standard PlatformI
   - 4 x M3 mounting holes (one grounded to DC-DC ground)
   - Operating Ambient Temperature -40 to +85 °C
   - Optional Conformal Coating – on request.
+
+
+## Updates
+
+-   26-09-20 - Design being finalised.  Production targetted for end of October.
+-   26-06-30 - Test of updated BOM and electrical improvements.
+-   26-05-30 - BOM updates complete.  Design being progressed.
+-   26-04-30 - This board is in redesign.
 
 ## **Ordering**
 
