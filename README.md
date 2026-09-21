@@ -120,12 +120,13 @@ Opensource IBEM Firmware is provided on our GitHub, using the standard PlatformI
 ## **Ordering**
 
 - **ESP32-C3-MINI-1-N4** *(PCB Antenna)*
-  - eBay: https://www.ebay.co.uk/itm/326080939227
-  - Amazon: https://www.amazon.co.uk/s?k=ditronix
+
 - **ESP32-C3-MINI-1U-N4** *(External Antenna via U. FL)
-  - eBay: *URL To follow*
-  - Amazon: https://www.amazon.co.uk/s?k=ditronix
+
 ## **Purchase**
+
+DitroniX Shop - https://ditronix.net/
+
 [![Display-Type-B](https://raw.githubusercontent.com/DitroniX/DitroniX/main/Files/DitroniX.net%20STEM%20IoT%20eBay.jpg?raw=true)](https://www.ebay.co.uk/usr/ditronixuk)
 
 Our STEM SDK boards and accessories are available from our online shops on [eBay](https://www.ebay.co.uk/usr/ditronixuk) 
